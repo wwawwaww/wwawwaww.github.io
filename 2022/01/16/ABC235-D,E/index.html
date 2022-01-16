@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="题目链接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ABC235 D,E">
+<meta property="og:url" content="http://example.com/2022/01/16/ABC235-D,E/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="题目链接">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-16T06:56:29.000Z">
+<meta property="article:modified_time" content="2022-01-16T07:34:02.902Z">
+<meta property="article:author" content="wwawwaww">
+<meta property="article:tag" content="生成树	BFS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/01/16/ABC235-D,E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ABC235 D,E | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/16/ABC235-D,E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ABC235 D,E
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-16 14:56:29 / 修改时间：15:34:02" itemprop="dateCreated datePublished" datetime="2022-01-16T14:56:29+08:00">2022-01-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">图论</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%90%9C%E7%B4%A2/" itemprop="url" rel="index"><span itemprop="name">搜索</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc235/tasks">题目链接</a></p>
+<span id="more"></span>
+<p>（最近打Atcoder越来越铸币了）</p>
+<p><strong>D - Multiply and Rotate</strong></p>
+<p>题意：给定$a,n,2\le a\le 10^6,1\le n\le 10^6$,可以对一个数$x$进行以下操作：</p>
+<p>1.用$x\cdot a$替换$x$;</p>
+<p>2.将$x$的十进制表示转化为字符，如果最后一位不是0，将其循环右移一位。</p>
+<p>问：从1开始，至少经过多少次操作能把数变成$n$.如果不能，输出<code>-1</code>.</p>
+<p>分析：如果从1出发BFS，如果答案不存在会做很多无用功，所以考虑逆着找，考虑把$n$变为1的最少次数，这样除法只有当$x$被$n$整除时才能继续搜；循环右移要变成循环左移，什么时候可以循环左移呢，次高位不为0的时候。（因为这个WA了好多次）</p>
+<p>比赛时写的丑陋代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;random&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1000010</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 998244353</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-7</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="keyword">int</span> res = <span class="number">1e9</span>;</span><br><span class="line">ll a, n;</span><br><span class="line"><span class="keyword">int</span> dp[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shiftr</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll tmp = now, pw = <span class="number">0</span>; ll ttt = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (tmp)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp /= <span class="number">10</span>; pw++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> r = now % <span class="number">10</span>;</span><br><span class="line">    now /= <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">if</span> (r == <span class="number">0</span>)<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> now + r * ttt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shiftl</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll tmp = now, pw = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (tmp&gt;=<span class="number">10</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp /= <span class="number">10</span>; pw++;</span><br><span class="line">    &#125;</span><br><span class="line">    ll ttt = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= pw; i++)ttt *= <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> l = now % ttt; ll tmp2 = l;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; pw; i++)</span><br><span class="line">        tmp2 /= <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">if</span> (tmp == <span class="number">0</span>||tmp2==<span class="number">0</span>)<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> l*<span class="number">10</span>+tmp;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bfs</span><span class="params">(ll val)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    queue&lt;pa&gt;q;</span><br><span class="line">    q.<span class="built_in">push</span>(<span class="built_in">mapa</span>(<span class="number">0</span>,n));</span><br><span class="line">    <span class="keyword">while</span> (!q.<span class="built_in">empty</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        pa pp = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">        val = pp.second;</span><br><span class="line">        <span class="comment">//dp[val] = pp.first;</span></span><br><span class="line">        ll tmp = val, pw = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (tmp)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp /= <span class="number">10</span>; pw++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//printf(&quot;%d %d\n&quot;, pp.first, pp.second);</span></span><br><span class="line">        <span class="keyword">if</span> (pp.second == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            res = <span class="built_in">min</span>(res, pp.first);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= pw; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (val % a == <span class="number">0</span>&amp;&amp;dp[val/a]&gt;pp.first+<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                q.<span class="built_in">push</span>(<span class="built_in">mapa</span>(pp.first + i, val / a));</span><br><span class="line">                dp[val / a] = pp.first + <span class="number">1</span>;</span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">if</span> (pp.first + i &lt; dp[val])</span><br><span class="line">            &#123;</span><br><span class="line">                q.<span class="built_in">push</span>(<span class="built_in">mapa</span>(pp.first + i, val));</span><br><span class="line">                dp[val] = pp.first + i;</span><br><span class="line">            &#125;</span><br><span class="line">            val = <span class="built_in">shiftl</span>(val);</span><br><span class="line">            <span class="keyword">if</span> (val == <span class="number">-1</span>)<span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;a, &amp;n);</span><br><span class="line">    <span class="built_in">memset</span>(dp, <span class="number">0x3f3f3f3f</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(dp));</span><br><span class="line">    res=<span class="built_in">bfs</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//printf(&quot;%d\n&quot;, shiftr(1024));</span></span><br><span class="line">    <span class="keyword">if</span> (res == <span class="number">1e9</span>)res = <span class="number">-1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, res);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;<span class="comment">//scanf(&quot;%d&quot;, &amp;_);</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);<span class="comment">//fflush(stdout);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>E - MST + 1</strong></p>
+<p>题意：给n个点，m条有权边$c_i$，q个独立询问，$(n,m,q\le 2\times10^5)$,每个询问给出一条边$(u_i,v_i,w_i)$,问在原图中加入新边后得到的图的最小生成树是否包含这条边，每个$w_i,c_i$都互不相同。</p>
+<p>自己的巨大多复杂想法：</p>
+<p>先求原图的最小生成树（贪心+并查集做法），此时若继续加边则会成环，由贪心可证新图的最小生成树要么不变，要么指会变一条边，也易知新图的最小生成树就是环中删掉一条最大边。用LCA判断$u_i$到$lca$和$v_i$到$lca$的路径上最大的边是否比$w_i$大，如果大就说明答案是<code>Yes</code>,否则是<code>No</code>.类似维护区间$max$，类似st表做法树上倍增求即可，询问时取区间并，但是右区间的左端点不能由lca直接减得到，还是得用求lca时的倍增往上跳。复杂度大概是$O(n\log^2n+q\log n+m\log m)$.</p>
+<p>（当时脑抽想成$min$，改过来后st表询问取min忘记改成max了，WA了7发）</p>
+<p>正解：考虑原图和所有询问的边，按Kruscal做法，当处理到询问时：如果这条边不是最小生成树的边，答案就是<code>No</code>;如果这条边是最小生成树的边，答案就是<code>Yes</code>，但不更新最小生成树。复杂度$O((m+q)\log(m+q)).$</p>
+<p>代码1：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="comment">//#include &lt;unordered_map&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="comment">//#include&lt;random&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 200010</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 998244353</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-7</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="keyword">int</span> n, m, q;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> u, v; ll w;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edege</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nxt, to; ll w;</span><br><span class="line">&#125;ee[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], ecnt, vis[MAXN];</span><br><span class="line"><span class="keyword">int</span> fa[MAXN][<span class="number">22</span>], ma[MAXN][<span class="number">22</span>], dep[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to, ll w)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ee[++ecnt].nxt = head[from];</span><br><span class="line">    ee[ecnt].to = to;</span><br><span class="line">    ee[ecnt].w = w;</span><br><span class="line">    head[from] = ecnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f, ll w)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//printf(&quot;%d %d\n&quot;, u, f);</span></span><br><span class="line">    fa[u][<span class="number">0</span>] = f; ma[u][<span class="number">0</span>] = w;</span><br><span class="line">    dep[u] = dep[f] + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">20</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        fa[u][i] = fa[fa[u][i - <span class="number">1</span>]][i - <span class="number">1</span>];</span><br><span class="line">        ma[u][i] = <span class="built_in">max</span>(ma[u][i - <span class="number">1</span>], ma[fa[u][i - <span class="number">1</span>]][i - <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = ee[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> go = ee[i].to;</span><br><span class="line">        <span class="keyword">if</span> (go != f)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">dfs2</span>(go, u, ee[i].w);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">query</span><span class="params">(<span class="keyword">int</span> st, <span class="keyword">int</span> ed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (st == ed)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> t = dep[st] - dep[ed];</span><br><span class="line">    <span class="keyword">int</span> log = <span class="built_in">log2</span>(t);</span><br><span class="line">    t -= (<span class="number">1</span> &lt;&lt; log); <span class="keyword">int</span> tmp = st;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">20</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="number">1</span> &lt;&lt; i) &amp; t)</span><br><span class="line">            tmp = fa[tmp][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(fa[tmp][log]==ed)</span><br><span class="line">    <span class="keyword">return</span>  <span class="built_in">max</span>(ma[st][log], ma[tmp][log]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lca</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dep[u] &gt; dep[v])</span><br><span class="line">        <span class="built_in">swap</span>(u, v);</span><br><span class="line">    <span class="keyword">int</span> t = dep[v] - dep[u];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">20</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="number">1</span> &lt;&lt; i) &amp; t)</span><br><span class="line">            v = fa[v][i];</span><br><span class="line">    &#125;<span class="comment">//走到同一深度</span></span><br><span class="line">    <span class="keyword">if</span> (u == v)</span><br><span class="line">        <span class="keyword">return</span> u;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">20</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (fa[u][i] != fa[v][i])</span><br><span class="line">            u = fa[u][i], v = fa[v][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fa[u][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Node <span class="keyword">const</span>&amp; a, Node <span class="keyword">const</span>&amp; b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.w &lt; b.w;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x == fa[x][<span class="number">0</span>] ? x : fa[x][<span class="number">0</span>] = <span class="built_in">find</span>(fa[x][<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;n, &amp;m, &amp;q);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%lld&quot;</span>, &amp;e[i].u, &amp;e[i].v, &amp;e[i].w);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//memset(ma, 0x3f3f3f3f, sizeof(ma));</span></span><br><span class="line">    <span class="built_in">sort</span>(e + <span class="number">1</span>, e + m + <span class="number">1</span>, cmp);</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)fa[i][<span class="number">0</span>] = i;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m &amp;&amp; cnt &lt; n - <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u = e[i].u, v = e[i].v;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">find</span>(u) != <span class="built_in">find</span>(v))</span><br><span class="line">        &#123;</span><br><span class="line">            fa[<span class="built_in">find</span>(u)][<span class="number">0</span>] = <span class="built_in">find</span>(v);</span><br><span class="line">            cnt++;</span><br><span class="line">            <span class="built_in">add</span>(u, v, e[i].w);</span><br><span class="line">            <span class="built_in">add</span>(v, u, e[i].w);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs2</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= q; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u, v; ll w; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%lld&quot;</span>, &amp;u, &amp;v, &amp;w);</span><br><span class="line">        <span class="keyword">int</span> lc = <span class="built_in">lca</span>(u, v);</span><br><span class="line">        <span class="keyword">if</span> ((u == v) || (<span class="built_in">query</span>(u, lc) &lt;= w &amp;&amp; <span class="built_in">query</span>(v, lc) &lt;= w))</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;No\n&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;Yes\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;<span class="comment">//scanf(&quot;%d&quot;, &amp;_);</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);<span class="comment">//fflush(stdout);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码2：</p>
+<p>不想写了,开摆</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E6%88%90%E6%A0%91BFS/" rel="tag"># 生成树	BFS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/11/ABC221E/" rel="prev" title="ABC221E LEQ">
+      <i class="fa fa-chevron-left"></i> ABC221E LEQ
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
