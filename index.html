@@ -213,7 +213,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-02-02 00:58:34 / 修改时间：02:06:07" itemprop="dateCreated datePublished" datetime="2022-02-02T00:58:34+08:00">2022-02-02</time>
+              <time title="创建时间：2022-02-02 00:58:34 / 修改时间：02:25:21" itemprop="dateCreated datePublished" datetime="2022-02-02T00:58:34+08:00">2022-02-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,7 +244,7 @@
 <p>D. Make Them Equal</p>
 <p>题意：给定大小为n的数组a，b，c。a的初始值都是1，一次操作可以选择正整数$x$把$a[i]$变成$a[i]+\lfloor \frac{a[i]}{x}\rfloor$，如果有$a[i]=b[i]$，就可以获得$c[i]$的分数，求进行不超过$k$次操作的最大分数，多测。$t\le 100,k\le10^6,1\le b[i]\le 1000,1\le c[i]\le 10^6,\sum n\le 10^3.$</p>
 <p>E. Spanning Tree Queries</p>
-<p>题意：给定$n\le50$个点，$m\le 300$条带权边$w_i$，有$q\le10^7$次询问，每次给定一个$x$,把每条边的边权变成$|w_i-x|$，求最小生成树，最后回答所有询问的异或和即可。前$p$个询问手动给出，其余由递推式$q[i]=(a*q[i-1]+b)%c$给出。</p>
+<p>题意：给定$n\le50$个点，$m\le 300$条带权边$w_i$，有$q\le10^7$次询问，每次给定一个$x$,把每条边的边权变成$|w_i-x|$，求最小生成树，最后回答所有询问的异或和即可。前$p$个询问手动给出，其余由递推式$q[i]=(a*q[i-1]+b)\mod c$给出。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/02/02/CF1633D,E/#more" rel="contents">
