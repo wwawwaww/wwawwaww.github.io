@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="D题，E题 D. Make Them Equal 题意：给定大小为n的数组a，b，c。a的初始值都是1，一次操作可以选择正整数$x$把$a[i]$变成$a[i]+\lfloor \frac{a[i]}{x}\rfloor$，如果有$a[i]&#x3D;b[i]$，就可以获得$c[i]$的分数，求进行不超过$k$次操作的最大分数，多测。$t\le 100,k\le10^6,1\le b[i]\le 1000,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF1633D,E(除夕跨年场)">
+<meta property="og:url" content="http://example.com/2022/02/02/CF1633D,E/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="D题，E题 D. Make Them Equal 题意：给定大小为n的数组a，b，c。a的初始值都是1，一次操作可以选择正整数$x$把$a[i]$变成$a[i]+\lfloor \frac{a[i]}{x}\rfloor$，如果有$a[i]&#x3D;b[i]$，就可以获得$c[i]$的分数，求进行不超过$k$次操作的最大分数，多测。$t\le 100,k\le10^6,1\le b[i]\le 1000,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-01T16:58:34.000Z">
+<meta property="article:modified_time" content="2022-02-01T18:06:07.292Z">
+<meta property="article:author" content="wwawwaww">
+<meta property="article:tag" content="生成树">
+<meta property="article:tag" content="最短路">
+<meta property="article:tag" content="背包">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/02/02/CF1633D,E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CF1633D,E(除夕跨年场) | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/02/CF1633D,E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/imgs/lily.png">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CF1633D,E(除夕跨年场)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-02-02 00:58:34 / 修改时间：02:06:07" itemprop="dateCreated datePublished" datetime="2022-02-02T00:58:34+08:00">2022-02-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">图论</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/dp/" itemprop="url" rel="index"><span itemprop="name">dp</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1633/problem/D">D题</a>，<a target="_blank" rel="noopener" href="https://codeforces.com/contest/1633/problem/E">E题</a></p>
+<p>D. Make Them Equal</p>
+<p>题意：给定大小为n的数组a，b，c。a的初始值都是1，一次操作可以选择正整数$x$把$a[i]$变成$a[i]+\lfloor \frac{a[i]}{x}\rfloor$，如果有$a[i]=b[i]$，就可以获得$c[i]$的分数，求进行不超过$k$次操作的最大分数，多测。$t\le 100,k\le10^6,1\le b[i]\le 1000,1\le c[i]\le 10^6,\sum n\le 10^3.$</p>
+<p>E. Spanning Tree Queries</p>
+<p>题意：给定$n\le50$个点，$m\le 300$条带权边$w_i$，有$q\le10^7$次询问，每次给定一个$x$,把每条边的边权变成$|w_i-x|$，求最小生成树，最后回答所有询问的异或和即可。前$p$个询问手动给出，其余由递推式$q[i]=(a*q[i-1]+b)%c$给出。</p>
+<span id="more"></span>
+<p>感觉前面4题过于裸，不太像CF，然后D题和E题跨度有点大。。。</p>
+<p>D.预处理出将1变成1到1000每个数的最小花费（类似最短路），然后就变成了背包问题。但是背包复杂度是$O(nW)$的，$W$是背包容量。直接写过不了，又发现花费最大不超过12，也就是当$k&gt;12000$就可以当作全部装完了。比赛时逆天看漏个0喜提WA on 5,然后最后因为只改了前面的k没改干净直接输出dp[k]了又WA on 12。。。（不要问为什么不直接k=min(k,12000),因为我是sb）看一下这题重测的数据就nm离谱，有很多都差不多，都是无脑拉满，常数猎杀者属于是，早知道我也去hack了</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 500010</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-7</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="function">ll <span class="title">ksm</span><span class="params">(ll x, ll n = MOD - <span class="number">2</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n) &#123;</span><br><span class="line">        <span class="keyword">if</span> (n &amp; <span class="number">1</span>)</span><br><span class="line">            res *= x, res %= MOD; x = x * x; x %= MOD; n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res % MOD;</span><br><span class="line">&#125;</span><br><span class="line">vector&lt;<span class="keyword">int</span>&gt;g[<span class="number">1010</span>];</span><br><span class="line"><span class="keyword">int</span> dis[<span class="number">1010</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">1000</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//printf(&quot;%d:&quot;, i);</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">1</span>, r; l &lt;= i; l = r + <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            r = i / (i / l); <span class="keyword">int</span> tt = i / l;</span><br><span class="line">            g[i].<span class="built_in">push_back</span>(i + tt);</span><br><span class="line">           <span class="comment">// printf(&quot;%d &quot;, tt);</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//printf(&quot;\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">memset</span>(dis, <span class="number">0x3f</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(dis));</span><br><span class="line">    queue&lt;<span class="keyword">int</span>&gt;q;</span><br><span class="line">    q.<span class="built_in">push</span>(<span class="number">1</span>); dis[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (!q.<span class="built_in">empty</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;g[u].<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> v = g[u][i];</span><br><span class="line">            <span class="keyword">if</span> (dis[v]&gt;<span class="number">1e9</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                q.<span class="built_in">push</span>(v);</span><br><span class="line">                dis[v] = dis[u] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">1000</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="comment">// printf(&quot;%d &quot;, dis[i]);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> b[MAXN], c[MAXN]; ll dp[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//打表</span></span><br><span class="line">    <span class="keyword">int</span> n,k; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n,&amp;k);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="built_in">min</span>(k, <span class="number">12222</span>); i++)dp[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;b[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;c[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        b[i] = dis[b[i]];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="built_in">min</span>(k,<span class="number">12222</span>); j &gt;= b[i]; j--)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[j] = <span class="built_in">max</span>(dp[j], dp[j - b[i]] + c[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>, dp[<span class="built_in">min</span>(k,<span class="number">12222</span>)]);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;_);<span class="comment">//cin &gt;&gt; _;</span></span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>); <span class="comment">//fflush(stdout);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>E. Spanning Tree Queries</p>
+<p>先看看暴力$O(km\log m)$，肯定跑不过。~~不做了。~~瓶颈在于每次都要求最小生成树。</p>
+<p>​	基本思路：重新考虑Kruscal的过程，先是给边排序，然后并查集贪，如果选边的顺序不变，那么最后的生成树形态也就不会变，变的只有每条边的权值。又注意到$x$分别位于$\frac{w_i+w_j}{2}$左右两端时，$w_i$和$w_j$的相对次序会发生变化，这样的分界点最多有$O(m^2)$个，划分出不同的区间。考虑令x落在左闭右开区间$[L_i,L_{i+1})$形成的最小生成树都一样，先求出每个$L_i$的最小生成树权值$val_i$，这部分复杂度是$O(m^3\log m)$。考虑答案如何转移：此时树的形态已经固定了。x每增加1，最小生成树中权值大于$L_i$的边权-1,权值小于或等于$L_i$的边权+1.答案变化因此求MST时维护严格大于$L_i$的数量geq和不大于$L_i$的数量leq，x的最小生成树权值$res=val_i+(x-L_i)*(leq-geq).$这个转移是$O(1)$的，因此总复杂度$O(m^3\log m+k\log m^2)$。</p>
+<p>​	注意的点：分界点边界问题有点难讨论，按理说应该是左端点应该是$\lceil\frac{w_i+w_j}{2}\rceil$吧，但其实加多几个问题不大，把$\lfloor\frac{w_i+w_j}{2}\rfloor$加上也行。还有就是求$L$对应的MST时边里可能有$|w_i-L|=|w_{i+1}-L|$的边，然后当x=L+1,2,…时，两者的次序就变了，事实上应该先选$w$大的边，而不是都可以，因为这样geq会大一些。所以排序还得加第二关键字。看别人写的是有对询问排序然后一块一块处理的，就没找到有这个问题，很怪，但是这样就有$O(k\log k)$这项了，感觉还是慢了。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 100010</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-7</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="function">ll <span class="title">ksm</span><span class="params">(ll x, ll n = MOD - <span class="number">2</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n) &#123;</span><br><span class="line">        <span class="keyword">if</span> (n &amp; <span class="number">1</span>)</span><br><span class="line">            res *= x, res %= MOD; x = x * x; x %= MOD; n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res % MOD;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> u, v, w;</span><br><span class="line">&#125;e[MAXN];</span><br><span class="line"><span class="keyword">int</span> x;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Node <span class="keyword">const</span>&amp; a, Node <span class="keyword">const</span>&amp; b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">abs</span>(a.w - x) == <span class="built_in">abs</span>(b.w - x) ? a.w &gt; b.w:<span class="built_in">abs</span>(a.w - x) &lt; <span class="built_in">abs</span>(b.w - x);</span><br><span class="line">    <span class="comment">//return abs(a.w - x) &lt; abs(b.w - x);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> fa[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123; <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)fa[i] = i; &#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x == fa[x] ? x : fa[x] = <span class="built_in">find</span>(fa[x]); &#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">same</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">find</span>(x) == <span class="built_in">find</span>(y); &#125;</span><br><span class="line"><span class="keyword">int</span> L[MAXN], tot;<span class="comment">//[L[i],L[i+1])</span></span><br><span class="line">ll q[MAXN * <span class="number">100</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MST</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    ll val; <span class="keyword">int</span> leq, geq;</span><br><span class="line">&#125;mst[<span class="number">99999</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, m; cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">        cin &gt;&gt; e[i].u &gt;&gt; e[i].v &gt;&gt; e[i].w;</span><br><span class="line">    <span class="built_in">sort</span>(e + <span class="number">1</span>, e + m + <span class="number">1</span>, cmp);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt;= m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            L[++tot] = (e[i].w + e[j].w) / <span class="number">2</span>;</span><br><span class="line">            L[++tot] = (e[i].w + e[j].w + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="comment">//L[++tot] = (e[i].w + e[j].w - 1) / 2;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(L + <span class="number">1</span>, L + tot + <span class="number">1</span>);</span><br><span class="line">    tot = <span class="built_in">unique</span>(L, L + tot + <span class="number">1</span>) - L - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> p, k, a, b, c;</span><br><span class="line">    cin &gt;&gt; p &gt;&gt; k &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= p; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; q[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = p + <span class="number">1</span>; i &lt;= k; i++)</span><br><span class="line">        q[i] = (<span class="number">1LL</span> * a * q[i - <span class="number">1</span>] + b) % c;</span><br><span class="line">    <span class="comment">//询问不排序</span></span><br><span class="line">    <span class="comment">//L[0] = -9;</span></span><br><span class="line">    L[++tot] = <span class="number">1e9</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= tot; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        x = L[i];</span><br><span class="line">        <span class="built_in">sort</span>(e + <span class="number">1</span>, e + m + <span class="number">1</span>, cmp);</span><br><span class="line">        <span class="built_in">init</span>(n); <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= m &amp;&amp; cnt &lt; n - <span class="number">1</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> u = e[j].u, v = e[j].v; ll w = e[j].w;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">same</span>(u, v))</span><br><span class="line">            &#123;</span><br><span class="line">                fa[<span class="built_in">find</span>(u)] = <span class="built_in">find</span>(v);</span><br><span class="line">                cnt++;</span><br><span class="line">                <span class="keyword">if</span> (w &gt; x)mst[i].geq++;</span><br><span class="line">                <span class="keyword">else</span> mst[i].leq++;</span><br><span class="line">                mst[i].val += <span class="built_in">abs</span>(w - x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//求本质不同MST以及存大、小于分界点的MST边数</span></span><br><span class="line">    &#125;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= k; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> belong = <span class="built_in">upper_bound</span>(L, L + tot + <span class="number">1</span>, q[i]) - L - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//int leq = upper_bound(e + 1, e + m + 1, q[i]) - e - 1, geq = m - leq;不是这个</span></span><br><span class="line">        ll res = mst[belong].val+<span class="number">1LL</span>*(q[i] - L[belong]) * (mst[belong].leq - mst[belong].geq);</span><br><span class="line">        ans ^= res;</span><br><span class="line">        <span class="comment">//printf(&quot;~%lld\n&quot;, res);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>, ans);</span><br><span class="line">    <span class="comment">//x的转移：生成树不变的话，答案转移和新的x无关，只和原来的生成树的分界点有关</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);cin.<span class="built_in">tie</span>(<span class="number">0</span>); cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>; <span class="comment">//scanf(&quot;%d&quot;, &amp;_);//cin &gt;&gt; _;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>); <span class="comment">//fflush(stdout);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E6%88%90%E6%A0%91/" rel="tag"># 生成树</a>
+              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF/" rel="tag"># 最短路</a>
+              <a href="/tags/%E8%83%8C%E5%8C%85/" rel="tag"># 背包</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/31/CF1632D/" rel="prev" title="CF1632D New Year Concert">
+      <i class="fa fa-chevron-left"></i> CF1632D New Year Concert
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wwawwaww"
+      src="/imgs/lily.png">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
