@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CF600E Lomsat gelral 给定一棵以1为根的有根树，每个点上有权值$c[i]$,对于每个$i$，求以$i$为根的子树上，权值出现次数最多的权值之和，注意可能有多种权值出现次数相同。$(1\le n\le 100000,1\le c[i]\le n)$ CF570D Tree Requests 给定一棵以1为根的有根树，每个点上有字母a到z,有$m$次询问，需回答以$v_i$为根的子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codeforces上的几道启发式合并入门">
+<meta property="og:url" content="http://example.com/2022/02/27/dsu-on-tree/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="CF600E Lomsat gelral 给定一棵以1为根的有根树，每个点上有权值$c[i]$,对于每个$i$，求以$i$为根的子树上，权值出现次数最多的权值之和，注意可能有多种权值出现次数相同。$(1\le n\le 100000,1\le c[i]\le n)$ CF570D Tree Requests 给定一棵以1为根的有根树，每个点上有字母a到z,有$m$次询问，需回答以$v_i$为根的子">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-27T13:56:31.000Z">
+<meta property="article:modified_time" content="2022-02-28T13:02:51.522Z">
+<meta property="article:author" content="wwawwaww">
+<meta property="article:tag" content="启发式合并">
+<meta property="article:tag" content="离线">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/02/27/dsu-on-tree/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Codeforces上的几道启发式合并入门 | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/27/dsu-on-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/imgs/lily.png">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Codeforces上的几道启发式合并入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-27 21:56:31" itemprop="dateCreated datePublished" datetime="2022-02-27T21:56:31+08:00">2022-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-28 21:02:51" itemprop="dateModified" datetime="2022-02-28T21:02:51+08:00">2022-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/600/problem/E">CF600E Lomsat gelral</a></p>
+<p>给定一棵以1为根的有根树，每个点上有权值$c[i]$,对于每个$i$，求以$i$为根的子树上，权值出现次数最多的权值之和，注意可能有多种权值出现次数相同。$(1\le n\le 100000,1\le c[i]\le n)$</p>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/570/problem/D">CF570D Tree Requests</a></p>
+<p>给定一棵以1为根的有根树，每个点上有字母<code>a</code>到<code>z</code>,有$m$次询问，需回答以$v_i$为根的子树上深度为$h_i$的所有节点上的字母重排后能否构成回文串。根的深度为1.$(1\le n,m\le 5\times 10^5)$</p>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/208/problem/E">CF208E Blood Cousins</a></p>
+<p>给定一个森林，定义：如果节点$u$的$p$级祖先等于节点$v$的$p$级祖先，则$v$是$u$的$p$级表亲。$m$组询问，询问$v_i$的$p_i$表亲个数。$(1\le n,m\le 10^5,1\le v_i,p_i\le n)$</p>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/246/problem/E">CF246E Blood Cousins Return</a></p>
+<p>给定一个森林，点上带有字符串（长度不超过20），$m$次询问，需回答从$v_i$向下的$k_i$层的儿子中有多少种不同的字符串。$1\le n,m\le10^5.$</p>
+<span id="more"></span>
+<p>原理：</p>
+<p>先考虑暴力，对于每个点为根的子树，用一个全局cnt数组维护每个权值出现的次数，遍历子树记录cnt的值，如果加之前cnt为0则答案+=1，然后再遍历一遍子树清空。这样做的复杂度是$O(n^2)$的，瓶颈在于清空cnt数组。</p>
+<p>注意到如果从下往上递归的话，假设当前点为$x$，在这之前$x$的所有儿子的答案都已经计算完毕，在算$x$的答案时，之前最后一次算儿子时的cnt可以不清空留给$x$继续使用，只要每次最后再走重儿子就可以保证复杂度降为$O(n\log n).$</p>
+<p>复杂度的证明：考虑所有轻边暴力的过程，由于从一个点到根的轻边数量不超过$O(\log n)$条，故每个点被暴力递归的次数不超过$O(\log n)$次，总的时间复杂度为$O(n\log n)$，实际上上界较松。</p>
+<p>第一道题，维护一个sum和最大出现次数mx，合并儿子时更新sum和mx，更改cnt，清除时将sum和mx置零，更改cnt.</p>
+<p>第二道题有多组询问，考虑将询问按节点离线，然后做启发式合并，维护全局数组cnt[dep][26],回答时将同一节点的所有询问一并回答。（离线写炸了，太弱智了）</p>
+<p>第三道题，借鉴第二道题的思路，先将询问离线，但是注意到回答的都是以xxx为根的形式，所以要对询问进行预处理，找到令$v_i$变成$v_i$的$p$级祖先再询问$v_i$的$p$级儿子个数，找$p$级祖先可以用倍增$O(n\log n)$预处理$O(\log n)$回答，问题不大。</p>
+<p>第四道题也差不多，但是我用字符串到int的umap和cnt维护写挂了，直接set就过了，找不到原因。。。。但是字符串要多一个$\log$应该是逃不掉的。。</p>
+<p>无脑粘代码（Blog不是你的粘贴板）</p>
+<p>CF600E</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 400110</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MXAN MAXN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> cahr char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-8</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="keyword">int</span> dep[MAXN], sz[MAXN], fa[MAXN], son[MAXN];</span><br><span class="line"><span class="keyword">int</span> w[MAXN], n, cnt[MAXN];<span class="comment">//每种颜色次数</span></span><br><span class="line">ll ans[MAXN], sum, mx;<span class="comment">//之和，tmp和，tmp最大出现次数</span></span><br><span class="line"><span class="keyword">int</span> vi;<span class="comment">//已经处理过的重儿子</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], ecnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++ecnt].nxt = head[from];</span><br><span class="line">    e[ecnt].to = to;</span><br><span class="line">    head[from] = ecnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> d)</span><span class="comment">//现在处理u，得到u的答案</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cnt[w[u]] += d;</span><br><span class="line">    <span class="keyword">if</span> (cnt[w[u]] &gt;= mx)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (cnt[w[u]] &gt; mx)sum = <span class="number">0</span>;</span><br><span class="line">        sum += w[u]; mx = cnt[w[u]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == vi)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">cal</span>(v, d);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    sz[u] = <span class="number">1</span>; <span class="keyword">int</span> maxsize = <span class="number">-1</span>;</span><br><span class="line">    dep[u] = dep[f] + <span class="number">1</span>; fa[u] = f;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(v, u);</span><br><span class="line">        sz[u] += sz[v];</span><br><span class="line">        <span class="keyword">if</span> (sz[v] &gt; maxsize)</span><br><span class="line">            son[u] = v, maxsize = sz[v];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dsu</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> keep)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == son[u])<span class="keyword">continue</span>;<span class="comment">//先走轻儿子</span></span><br><span class="line">        <span class="built_in">dsu</span>(v, <span class="number">0</span>);<span class="comment">//清空</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (son[u])</span><br><span class="line">        <span class="built_in">dsu</span>(son[u], <span class="number">1</span>);<span class="comment">//保留重儿子信息</span></span><br><span class="line">    vi = son[u];<span class="comment">//标记当前层重儿子</span></span><br><span class="line">    <span class="built_in">cal</span>(u, <span class="number">1</span>);</span><br><span class="line">    vi = <span class="number">0</span>;</span><br><span class="line">    ans[u] = sum;</span><br><span class="line">    <span class="keyword">if</span> (!keep)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cal</span>(u, <span class="number">-1</span>); mx = sum = <span class="number">0</span>;<span class="comment">//清除</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;w[i]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u, v; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;u, &amp;v);</span><br><span class="line">        <span class="built_in">addedge</span>(u, v); <span class="built_in">addedge</span>(v, u);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">dsu</span>(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld &quot;</span>, ans[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//scanf(&quot;%d&quot;, &amp;_);</span></span><br><span class="line">    <span class="comment">//cin &gt;&gt; _;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>); <span class="built_in">fflush</span>(stdout);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>CF570D</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 500110</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MXAN MAXN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> cahr char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-8</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="keyword">int</span> dep[MAXN], sz[MAXN], fa[MAXN], son[MAXN];</span><br><span class="line"><span class="keyword">int</span> n,ans[MAXN], cnt[MAXN][<span class="number">28</span>];<span class="comment">//cnt[i][j]:当前的第i层颜色j的个数</span></span><br><span class="line"><span class="keyword">char</span> ch[MAXN];</span><br><span class="line"><span class="keyword">int</span> vi;<span class="comment">//已经处理过的重儿子</span></span><br><span class="line">vector&lt;pa&gt;qry[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ck</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> h)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (h &lt;= dep[u])</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (cnt[h][i] % <span class="number">2</span>)res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res &lt;= <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], ecnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++ecnt].nxt = head[from];</span><br><span class="line">    e[ecnt].to = to;</span><br><span class="line">    head[from] = ecnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> d)</span><span class="comment">//现在利用保留的重儿子暴力处理u的所有轻儿子，得到u的答案</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cnt[dep[u]][ch[u] - <span class="string">&#x27;a&#x27;</span>] += d;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == vi)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">cal</span>(v, d);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    sz[u] = <span class="number">1</span>; <span class="keyword">int</span> maxsize = <span class="number">-1</span>;</span><br><span class="line">    dep[u] = dep[f] + <span class="number">1</span>; fa[u] = f;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(v, u);</span><br><span class="line">        sz[u] += sz[v];</span><br><span class="line">        <span class="keyword">if</span> (sz[v] &gt; maxsize)</span><br><span class="line">            son[u] = v, maxsize = sz[v];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dsu</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> keep)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == son[u])<span class="keyword">continue</span>;<span class="comment">//先走轻儿子</span></span><br><span class="line">        <span class="built_in">dsu</span>(v, <span class="number">0</span>);<span class="comment">//清空</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (son[u])</span><br><span class="line">        <span class="built_in">dsu</span>(son[u], <span class="number">1</span>);<span class="comment">//保留重儿子信息</span></span><br><span class="line">    vi = son[u];<span class="comment">//标记当前层重儿子</span></span><br><span class="line">    <span class="built_in">cal</span>(u, <span class="number">1</span>);</span><br><span class="line">    vi = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//printf(&quot;u:%d %d %d %d\n&quot;, u, dep[u], ch[u] - &#x27;a&#x27;, d);</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; qry[u].<span class="built_in">size</span>(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> id = qry[u][i].first, h = qry[u][i].second;</span><br><span class="line">        ans[id] = <span class="built_in">ck</span>(u, h);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!keep)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cal</span>(u, <span class="number">-1</span>);<span class="comment">//清除</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    <span class="built_in">memset</span>(ans, <span class="number">-1</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(ans));</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;u);</span><br><span class="line">        <span class="built_in">addedge</span>(u, i+<span class="number">1</span>); <span class="built_in">addedge</span>(i+<span class="number">1</span>, u);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, ch + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v, h; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;v, &amp;h);</span><br><span class="line">        qry[v].<span class="built_in">push_back</span>(<span class="built_in">mapa</span>(i, h));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">dsu</span>(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (ans[i])<span class="built_in">printf</span>(<span class="string">&quot;Yes\n&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;No\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//scanf(&quot;%d&quot;, &amp;_);</span></span><br><span class="line">    <span class="comment">//cin &gt;&gt; _;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>); <span class="built_in">fflush</span>(stdout);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>CF208E</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 500110</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MXAN MAXN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> cahr char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-8</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="keyword">int</span> dep[MAXN], sz[MAXN], fa[MAXN][<span class="number">22</span>], son[MAXN], rt[MAXN], rtot;</span><br><span class="line"><span class="keyword">int</span> n,ans[MAXN], cnt[MAXN];<span class="comment">//cnt[i]:当前的第i层的儿子数</span></span><br><span class="line"><span class="keyword">int</span> vi;<span class="comment">//已经处理过的重儿子</span></span><br><span class="line">vector&lt;pa&gt;qry[MAXN];<span class="comment">//qry[v]:id p</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], ecnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++ecnt].nxt = head[from];</span><br><span class="line">    e[ecnt].to = to;</span><br><span class="line">    head[from] = ecnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> d)</span><span class="comment">//现在利用保留的重儿子暴力处理u的所有轻儿子，得到u的答案</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cnt[dep[u]] += d;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u][<span class="number">0</span>] || v == vi)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">cal</span>(v, d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    sz[u] = <span class="number">1</span>; <span class="keyword">int</span> maxsize = <span class="number">-1</span>;</span><br><span class="line">    dep[u] = dep[f] + <span class="number">1</span>;</span><br><span class="line">    fa[u][<span class="number">0</span>] = f;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">20</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        fa[u][i] = fa[fa[u][i - <span class="number">1</span>]][i - <span class="number">1</span>];<span class="comment">//倍增祖先</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(v, u);</span><br><span class="line">        sz[u] += sz[v];</span><br><span class="line">        <span class="keyword">if</span> (sz[v] &gt; maxsize)</span><br><span class="line">            son[u] = v, maxsize = sz[v];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dsu</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> keep)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u][<span class="number">0</span>] || v == son[u])<span class="keyword">continue</span>;<span class="comment">//先走轻儿子</span></span><br><span class="line">        <span class="built_in">dsu</span>(v, <span class="number">0</span>);<span class="comment">//清空</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (son[u])</span><br><span class="line">        <span class="built_in">dsu</span>(son[u], <span class="number">1</span>);<span class="comment">//保留重儿子信息</span></span><br><span class="line">    vi = son[u];<span class="comment">//标记当前层重儿子</span></span><br><span class="line">    <span class="built_in">cal</span>(u, <span class="number">1</span>);</span><br><span class="line">    vi = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//printf(&quot;u:%d %d %d %d\n&quot;, u, dep[u], ch[u] - &#x27;a&#x27;, d);</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; qry[u].<span class="built_in">size</span>(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> id = qry[u][i].first, p = qry[u][i].second;</span><br><span class="line">        ans[id] = cnt[p] - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!keep)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cal</span>(u, <span class="number">-1</span>);<span class="comment">//清除</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">    <span class="comment">//memset(ans, -1, sizeof(ans));</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;u);</span><br><span class="line">        <span class="keyword">if</span> (u)</span><br><span class="line">            <span class="built_in">addedge</span>(u, i), <span class="built_in">addedge</span>(i, u);</span><br><span class="line">        <span class="keyword">else</span> rt[++rtot] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rtot; i++)</span><br><span class="line">        <span class="built_in">dfs</span>(rt[i], <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;m);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v, p; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;v, &amp;p);</span><br><span class="line">        <span class="keyword">int</span> d = dep[v];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">20</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ((p &gt;&gt; i) &amp; <span class="number">1</span>)</span><br><span class="line">                v = fa[v][i];</span><br><span class="line">        &#125;</span><br><span class="line">        qry[v].<span class="built_in">push_back</span>(<span class="built_in">mapa</span>(i, d));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=rtot;i++)</span><br><span class="line">    <span class="built_in">dsu</span>(rt[i], <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, ans[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//scanf(&quot;%d&quot;, &amp;_);</span></span><br><span class="line">    <span class="comment">//cin &gt;&gt; _;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>); <span class="built_in">fflush</span>(stdout);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>CF246E</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 500110</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MXAN MAXN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> cahr char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-8</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line"><span class="keyword">int</span> dep[MAXN], sz[MAXN],fa[MAXN], son[MAXN], rt[MAXN], rtot;</span><br><span class="line"><span class="keyword">int</span> a[MAXN];</span><br><span class="line"><span class="keyword">int</span> n, ans[MAXN]; set&lt;<span class="keyword">int</span>&gt;num[MAXN];</span><br><span class="line">unordered_map&lt;string, <span class="keyword">int</span>&gt;dit; <span class="keyword">int</span> dtot;</span><br><span class="line"><span class="keyword">int</span> vi;<span class="comment">//已经处理过的重儿子</span></span><br><span class="line">vector&lt;pa&gt;qry[MAXN];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], ecnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++ecnt].nxt = head[from];</span><br><span class="line">    e[ecnt].to = to;</span><br><span class="line">    head[from] = ecnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> d)</span><span class="comment">//现在利用保留的重儿子暴力处理u的所有轻儿子，得到u的答案</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (d == <span class="number">1</span>)num[dep[u]].<span class="built_in">insert</span>(a[u]);</span><br><span class="line">    <span class="keyword">if</span> (d == <span class="number">-1</span>)num[dep[u]].<span class="built_in">clear</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == vi)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">cal</span>(v, d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    sz[u] = <span class="number">1</span>; <span class="keyword">int</span> maxsize = <span class="number">-1</span>;</span><br><span class="line">    dep[u] = dep[f] + <span class="number">1</span>;</span><br><span class="line">    fa[u] = f;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(v, u);</span><br><span class="line">        sz[u] += sz[v];</span><br><span class="line">        <span class="keyword">if</span> (sz[v] &gt; maxsize)</span><br><span class="line">            son[u] = v, maxsize = sz[v];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dsu</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> keep)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == son[u])<span class="keyword">continue</span>;<span class="comment">//先走轻儿子</span></span><br><span class="line">        <span class="built_in">dsu</span>(v, <span class="number">0</span>);<span class="comment">//清空</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (son[u])</span><br><span class="line">        <span class="built_in">dsu</span>(son[u], <span class="number">1</span>);<span class="comment">//保留重儿子信息</span></span><br><span class="line">    vi = son[u];<span class="comment">//标记当前层重儿子</span></span><br><span class="line">    <span class="built_in">cal</span>(u, <span class="number">1</span>);</span><br><span class="line">    vi = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; qry[u].<span class="built_in">size</span>(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> id = qry[u][i].first, k = qry[u][i].second;</span><br><span class="line">        ans[id] = num[k].<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!keep)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cal</span>(u, <span class="number">-1</span>);<span class="comment">//清除</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        string s; <span class="keyword">int</span> u; cin &gt;&gt; s; cin &gt;&gt; u;</span><br><span class="line">        <span class="keyword">int</span> col;</span><br><span class="line">        <span class="keyword">auto</span> it = dit.<span class="built_in">find</span>(s);</span><br><span class="line">        <span class="keyword">if</span> (it != dit.<span class="built_in">end</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            col = (*it).second;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            col = ++dtot; dit[s] = dtot;</span><br><span class="line">        &#125;</span><br><span class="line">        a[i] = col;</span><br><span class="line">        <span class="keyword">if</span> (u)</span><br><span class="line">            <span class="built_in">addedge</span>(u, i), <span class="built_in">addedge</span>(i, u);</span><br><span class="line">        <span class="keyword">else</span> rt[++rtot] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rtot; i++)</span><br><span class="line">        <span class="built_in">dfs</span>(rt[i], <span class="number">0</span>);</span><br><span class="line">    cin &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v, k; cin &gt;&gt; v &gt;&gt; k;</span><br><span class="line">        qry[v].<span class="built_in">push_back</span>(<span class="built_in">mapa</span>(i, dep[v] + k));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=rtot;i++)</span><br><span class="line">    <span class="built_in">dsu</span>(rt[i], <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ans[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//scanf(&quot;%d&quot;, &amp;_);</span></span><br><span class="line">    <span class="comment">//cin &gt;&gt; _;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>); <span class="built_in">fflush</span>(stdout);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/" rel="tag"># 启发式合并</a>
+              <a href="/tags/%E7%A6%BB%E7%BA%BF/" rel="tag"># 离线</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/25/CF1114F/" rel="prev" title="CF1114F Please, another Queries on Array?">
+      <i class="fa fa-chevron-left"></i> CF1114F Please, another Queries on Array?
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/28/CF-383-Div2/" rel="next" title="Codeforces Round 742 Div2 vp A-D补E">
+      Codeforces Round 742 Div2 vp A-D补E <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wwawwaww"
+      src="/imgs/lily.png">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
