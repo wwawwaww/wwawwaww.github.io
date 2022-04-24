@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="题目链接 2022.03.19 计数类DP还是弱。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codeforces Round 722 (Div. 2)A-D,E待补">
+<meta property="og:url" content="http://example.com/2022/04/01/CF1529/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="题目链接 2022.03.19 计数类DP还是弱。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-01T09:11:08.000Z">
+<meta property="article:modified_time" content="2022-04-08T15:02:25.324Z">
+<meta property="article:author" content="wwawwaww">
+<meta property="article:tag" content="计数">
+<meta property="article:tag" content="欧拉序">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/04/01/CF1529/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Codeforces Round 722 (Div. 2)A-D,E待补 | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/01/CF1529/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/imgs/lily.png">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Codeforces Round 722 (Div. 2)A-D,E待补
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-01 17:11:08" itemprop="dateCreated datePublished" datetime="2022-04-01T17:11:08+08:00">2022-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-08 23:02:25" itemprop="dateModified" datetime="2022-04-08T23:02:25+08:00">2022-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vp/" itemprop="url" rel="index"><span itemprop="name">vp</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DP/" itemprop="url" rel="index"><span itemprop="name">DP</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://codeforces.ml/contest/1529">题目链接</a></p>
+<p>2022.03.19</p>
+<p>计数类DP还是弱。。</p>
+<span id="more"></span>
+<p>A.给一个数组$a$，每次你可以选择$a$的一个子数组$a’$，把$a’$严格大于其$a’$平均值的所有元素删掉。问最多总共删多少个。</p>
+<p>直接尽可能删完，只留下最小值。排序后，答案为$a_1$的数量。</p>
+<p>B.称序列$b=b_1,\cdots,b_k$是奇怪的，如果对任意$1\le i&lt;j\le k,|b_i-b_j|\ge\max(b)$。给定数组$a$，输出$a$的最长子序列，且它是奇怪的。</p>
+<p>如果$\max(b)\le0$答案就是$b$。否则数组最大值大于0。考虑右端有$\max(b)$，左端我们也代入$|\max(b)-b_i|=max(b)-b_i\ge \max(b)\Rightarrow b_i\le 0$。最多只能有一个数大于0。</p>
+<p>然后依次检查小于0的所有数，根据贪心，检查相邻两个数的差是否大于$a$中最小的正数，如果是，答案取所有的非负数和最小的正数，否则我们取完非负数。</p>
+<p>C.给一棵树，你可以为每个节点$v$赋$[l_v,r_v]$的值$a_v$，边权$w(u,v)=|a_u-a_v|$.求树的所有边权之和的最大值。</p>
+<p>感觉可以贪，即每个点要么取$l$，要么取$r$。然后就可以$dp$了。大概长这样。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to; <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(v, u);</span><br><span class="line">        dp[u][<span class="number">0</span>] += <span class="built_in">max</span>(dp[v][<span class="number">0</span>] + <span class="built_in">abs</span>(l[u] - l[v]), dp[v][<span class="number">1</span>] + <span class="built_in">abs</span>(l[u] - r[v]));</span><br><span class="line">        dp[u][<span class="number">1</span>] += <span class="built_in">max</span>(dp[v][<span class="number">0</span>] + <span class="built_in">abs</span>(r[u] - l[v]), dp[v][<span class="number">1</span>] + <span class="built_in">abs</span>(r[u] - r[v]));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>D.<s>不想写题意了</s>有$2n$个点在$x$轴上，你要连$n$条边保证每个点只被连到1次，并且对任意两条边$A,B$，至少满足以下一点：</p>
+<p>1.$A$包住了$B$,或$B$包住了$A$;</p>
+<p>2.$A,B$长度相同。</p>
+<p>求连接的方案数。对$998244353$取模。</p>
+<p>设$dp[i]$为$n=i$情况的答案。</p>
+<p>考虑1号点和$x$号点连接，有两种情况：</p>
+<p>1.$x&gt;n$。外面的连法就确定了，中间剩下$x-n-1$对点完全被外部包围，答案为$dp[x-n-1];$</p>
+<p>2.$x\le n$。可以发现$x$必须是$n$的因数，每个因数确定一种连接方法。</p>
+<p>故$dp[n]=cntd(n)+\sum\limits_{j=1}^{n-1}dp[j]$,同理$dp[i]=cntd(i)+\sum\limits_{j=1}^{i-1}dp[j]$，其中$cntd(i)$为$i$的因子个数，可以用$O(n\log n)$筛出（网上某些博客说这个是线性筛，蚌埠住了）。</p>
+<p>E.给两棵大小为$n(2\le n\le 3\times 10^5)$的树$A,B$，由以下规则生成无向图$G$:若点对$(u,v)$同时满足以下要求，则$G$中$(u,v)$边存在：$u,v$在$A$中有祖先关系，且在$B$中没有祖先关系。求$G$的团大小。团是$G$的一个子图且为完全图。</p>
+<p>判祖先关系可以用欧拉序（也叫括号序）。如果两个节点$(u,v)$有祖先关系，那么它们欧拉序的线段就会有包含关系，反过来也成立。欧拉序的线段要么完全不相交，要么完全被包含。我们在$B$树中算每个节点的L和R，所以就等价于求$A$中从根到叶子的一条路径，要求路径上的节点对应的线段都不相交。就可以贪心做，用pair的set维护线段，如果当前待加入的线段被之前的包含就把之前的删掉加当前的，更新答案；如果当前待加入的包含了之前的就什么也不做；如果没交集就直接加，更新答案。换路径的时候要记得撤销这次的。</p>
+<pre><code class="language-C++">#include &lt;cstdio&gt;
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;string&gt;
+#include &lt;cstring&gt;
+#include &lt;queue&gt;
+#include &lt;set&gt;
+#include &lt;vector&gt;
+#include &lt;time.h&gt;
+#include &lt;stack&gt;
+#include &lt;unordered_map&gt;
+#include &lt;bitset&gt;
+#include &lt;tuple&gt;
+#define MAXN 600010
+#define MXAN MAXN
+#define MOD 1000000007
+#define mapa make_pair
+#define ll long long
+#define pa pair&lt;int,int&gt;
+#define eps 1e-8
+using namespace std;
+#define Sit std::set&lt;std::pair&lt;int,int&gt; &gt;::iterator
+set&lt;pa&gt;s;
+int a[MAXN],l[MAXN], r[MAXN], dfn_clock;
+struct Edge
+&#123;
+    int nxt, to;
+&#125;e[MAXN&lt;&lt;1];
+int head[MAXN], ecnt = 0;
+void add(int from, int to)
+&#123;
+    e[++ecnt].nxt = head[from];
+    e[ecnt].to = to;
+    head[from] = ecnt;
+&#125;
+void dfs(int u, int f)
+&#123;
+    l[u] = ++dfn_clock;
+    for (int i = head[u]; i; i = e[i].nxt)
+    &#123;
+        int v = e[i].to;
+        if (v == f)continue;
+        dfs(v, u);
+    &#125;
+    r[u] = ++dfn_clock;
+&#125;
+int ma;
+void dfs2(int u, int f)
+&#123;
+    pa era = mapa(0, 0),ins=mapa(0,0), now = mapa(l[u], r[u]);
+    auto it = s.lower_bound(now);
+    if (it==s.begin()||(prev(it))-&gt;second &lt; l[u])
+    &#123;
+        s.insert(now); ins = now;
+    &#125;
+    else if ((prev(it))-&gt;second &gt; r[u])
+    &#123;
+        auto pre = prev(it);
+        s.insert(now); ins = now;
+        era = *pre; s.erase(pre);
+    &#125;
+    for (int i = head[u]; i; i = e[i].nxt)
+    &#123;
+        int v = e[i].to;
+        if (v == f)continue;
+        dfs2(v, u);
+    &#125;
+    ma = max(ma, (int)s.size());
+    if (era.first)
+    &#123;
+        s.insert(era);
+    &#125;
+    if(now.first)
+    s.erase(now);
+&#125;
+void slv()
+&#123;
+    int n; scanf(&quot;%d&quot;, &amp;n); ma = 0; s.clear();
+    s.insert(mapa(1e9, 1e9));
+    for (int i = 1; i &lt;= n; i++)head[i] = 0;
+    ecnt = 0; dfn_clock = 0;
+    for (int i = 2; i &lt;= n; i++)
+    &#123;
+        scanf(&quot;%d&quot;, &amp;a[i]);// add(a[i], i); add(i, a[i]);//a
+    &#125;
+    for (int i = 2; i &lt;= n; i++)
+    &#123;
+        int u; scanf(&quot;%d&quot;, &amp;u); add(u, i); add(i, u);
+    &#125;
+    dfs(1, 0); ecnt = 0; for (int i = 1; i &lt;= n; i++)head[i] = 0;
+    for (int i = 2; i &lt;= n; i++)add(a[i], i), add(i, a[i]);
+    dfs2(1, 0);
+    printf(&quot;%d&quot;, ma-1);
+&#125;
+int main() &#123;
+    //ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);
+    int _ = 1;
+    scanf(&quot;%d&quot;, &amp;_);
+    //cin &gt;&gt; _;
+#ifdef LOCAL
+    freopen(&quot;in.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;out.out&quot;, &quot;w&quot;, stdout);
+#endif
+    for (int i = 1; i &lt;= _; i++)
+    &#123;
+        slv();
+        cout &lt;&lt; &quot;\n&quot;;
+        //printf(&quot;\n&quot;); fflush(stdout);
+    &#125;
+    return 0;
+&#125;
+//多 练
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E6%95%B0/" rel="tag"># 计数</a>
+              <a href="/tags/%E6%AC%A7%E6%8B%89%E5%BA%8F/" rel="tag"># 欧拉序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/01/CF1536/" rel="prev" title="Codeforces Round 724 (Div. 2)A-E,F待补">
+      <i class="fa fa-chevron-left"></i> Codeforces Round 724 (Div. 2)A-E,F待补
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/24/CF1654/" rel="next" title="Codeforces Round 778 (Div. 1 + Div. 2, based on Technocup 2022 Final Round)E,D待补">
+      Codeforces Round 778 (Div. 1 + Div. 2, based on Technocup 2022 Final Round)E,D待补 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wwawwaww"
+      src="/imgs/lily.png">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
