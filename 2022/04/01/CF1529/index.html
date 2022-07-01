@@ -22,13 +22,13 @@
 
   <meta name="description" content="题目链接 2022.03.19 计数类DP还是弱。。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Codeforces Round 722 (Div. 2)A-D,E待补">
+<meta property="og:title" content="Codeforces Round 722 (Div. 2)A-E">
 <meta property="og:url" content="http://example.com/2022/04/01/CF1529/index.html">
 <meta property="og:site_name" content="wwawwaww&#39;s blog">
 <meta property="og:description" content="题目链接 2022.03.19 计数类DP还是弱。。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-01T09:11:08.000Z">
-<meta property="article:modified_time" content="2022-04-08T15:02:25.324Z">
+<meta property="article:modified_time" content="2022-07-01T12:08:02.364Z">
 <meta property="article:author" content="wwawwaww">
 <meta property="article:tag" content="计数">
 <meta property="article:tag" content="欧拉序">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>Codeforces Round 722 (Div. 2)A-D,E待补 | wwawwaww's blog</title>
+  <title>Codeforces Round 722 (Div. 2)A-E | wwawwaww's blog</title>
   
 
 
@@ -208,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Codeforces Round 722 (Div. 2)A-D,E待补
+          Codeforces Round 722 (Div. 2)A-E
         </h1>
 
         <div class="post-meta">
@@ -225,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-08 23:02:25" itemprop="dateModified" datetime="2022-04-08T23:02:25+08:00">2022-04-08</time>
+                <time title="修改时间：2022-07-01 20:08:02" itemprop="dateModified" datetime="2022-07-01T20:08:02+08:00">2022-07-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,122 +282,7 @@
 <p>故$dp[n]=cntd(n)+\sum\limits_{j=1}^{n-1}dp[j]$,同理$dp[i]=cntd(i)+\sum\limits_{j=1}^{i-1}dp[j]$，其中$cntd(i)$为$i$的因子个数，可以用$O(n\log n)$筛出（网上某些博客说这个是线性筛，蚌埠住了）。</p>
 <p>E.给两棵大小为$n(2\le n\le 3\times 10^5)$的树$A,B$，由以下规则生成无向图$G$:若点对$(u,v)$同时满足以下要求，则$G$中$(u,v)$边存在：$u,v$在$A$中有祖先关系，且在$B$中没有祖先关系。求$G$的团大小。团是$G$的一个子图且为完全图。</p>
 <p>判祖先关系可以用欧拉序（也叫括号序）。如果两个节点$(u,v)$有祖先关系，那么它们欧拉序的线段就会有包含关系，反过来也成立。欧拉序的线段要么完全不相交，要么完全被包含。我们在$B$树中算每个节点的L和R，所以就等价于求$A$中从根到叶子的一条路径，要求路径上的节点对应的线段都不相交。就可以贪心做，用pair的set维护线段，如果当前待加入的线段被之前的包含就把之前的删掉加当前的，更新答案；如果当前待加入的包含了之前的就什么也不做；如果没交集就直接加，更新答案。换路径的时候要记得撤销这次的。</p>
-<pre><code class="language-C++">#include &lt;cstdio&gt;
-#include &lt;iostream&gt;
-#include &lt;map&gt;
-#include &lt;algorithm&gt;
-#include &lt;cmath&gt;
-#include &lt;string&gt;
-#include &lt;cstring&gt;
-#include &lt;queue&gt;
-#include &lt;set&gt;
-#include &lt;vector&gt;
-#include &lt;time.h&gt;
-#include &lt;stack&gt;
-#include &lt;unordered_map&gt;
-#include &lt;bitset&gt;
-#include &lt;tuple&gt;
-#define MAXN 600010
-#define MXAN MAXN
-#define MOD 1000000007
-#define mapa make_pair
-#define ll long long
-#define pa pair&lt;int,int&gt;
-#define eps 1e-8
-using namespace std;
-#define Sit std::set&lt;std::pair&lt;int,int&gt; &gt;::iterator
-set&lt;pa&gt;s;
-int a[MAXN],l[MAXN], r[MAXN], dfn_clock;
-struct Edge
-&#123;
-    int nxt, to;
-&#125;e[MAXN&lt;&lt;1];
-int head[MAXN], ecnt = 0;
-void add(int from, int to)
-&#123;
-    e[++ecnt].nxt = head[from];
-    e[ecnt].to = to;
-    head[from] = ecnt;
-&#125;
-void dfs(int u, int f)
-&#123;
-    l[u] = ++dfn_clock;
-    for (int i = head[u]; i; i = e[i].nxt)
-    &#123;
-        int v = e[i].to;
-        if (v == f)continue;
-        dfs(v, u);
-    &#125;
-    r[u] = ++dfn_clock;
-&#125;
-int ma;
-void dfs2(int u, int f)
-&#123;
-    pa era = mapa(0, 0),ins=mapa(0,0), now = mapa(l[u], r[u]);
-    auto it = s.lower_bound(now);
-    if (it==s.begin()||(prev(it))-&gt;second &lt; l[u])
-    &#123;
-        s.insert(now); ins = now;
-    &#125;
-    else if ((prev(it))-&gt;second &gt; r[u])
-    &#123;
-        auto pre = prev(it);
-        s.insert(now); ins = now;
-        era = *pre; s.erase(pre);
-    &#125;
-    for (int i = head[u]; i; i = e[i].nxt)
-    &#123;
-        int v = e[i].to;
-        if (v == f)continue;
-        dfs2(v, u);
-    &#125;
-    ma = max(ma, (int)s.size());
-    if (era.first)
-    &#123;
-        s.insert(era);
-    &#125;
-    if(now.first)
-    s.erase(now);
-&#125;
-void slv()
-&#123;
-    int n; scanf(&quot;%d&quot;, &amp;n); ma = 0; s.clear();
-    s.insert(mapa(1e9, 1e9));
-    for (int i = 1; i &lt;= n; i++)head[i] = 0;
-    ecnt = 0; dfn_clock = 0;
-    for (int i = 2; i &lt;= n; i++)
-    &#123;
-        scanf(&quot;%d&quot;, &amp;a[i]);// add(a[i], i); add(i, a[i]);//a
-    &#125;
-    for (int i = 2; i &lt;= n; i++)
-    &#123;
-        int u; scanf(&quot;%d&quot;, &amp;u); add(u, i); add(i, u);
-    &#125;
-    dfs(1, 0); ecnt = 0; for (int i = 1; i &lt;= n; i++)head[i] = 0;
-    for (int i = 2; i &lt;= n; i++)add(a[i], i), add(i, a[i]);
-    dfs2(1, 0);
-    printf(&quot;%d&quot;, ma-1);
-&#125;
-int main() &#123;
-    //ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);
-    int _ = 1;
-    scanf(&quot;%d&quot;, &amp;_);
-    //cin &gt;&gt; _;
-#ifdef LOCAL
-    freopen(&quot;in.in&quot;, &quot;r&quot;, stdin);
-    freopen(&quot;out.out&quot;, &quot;w&quot;, stdout);
-#endif
-    for (int i = 1; i &lt;= _; i++)
-    &#123;
-        slv();
-        cout &lt;&lt; &quot;\n&quot;;
-        //printf(&quot;\n&quot;); fflush(stdout);
-    &#125;
-    return 0;
-&#125;
-//多 练
-</code></pre>
-
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 600010</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MXAN MAXN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOD 1000000007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mapa make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pa pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> eps 1e-8</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Sit std::set<span class="meta-string">&lt;std::pair&lt;int,int&gt;</span> &gt;::iterator</span></span><br><span class="line">set&lt;pa&gt;s;</span><br><span class="line"><span class="keyword">int</span> a[MAXN],l[MAXN], r[MAXN], dfn_clock;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN&lt;&lt;<span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN], ecnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++ecnt].nxt = head[from];</span><br><span class="line">    e[ecnt].to = to;</span><br><span class="line">    head[from] = ecnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    l[u] = ++dfn_clock;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(v, u);</span><br><span class="line">    &#125;</span><br><span class="line">    r[u] = ++dfn_clock;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> ma;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    pa era = <span class="built_in">mapa</span>(<span class="number">0</span>, <span class="number">0</span>),ins=<span class="built_in">mapa</span>(<span class="number">0</span>,<span class="number">0</span>), now = <span class="built_in">mapa</span>(l[u], r[u]);</span><br><span class="line">    <span class="keyword">auto</span> it = s.<span class="built_in">lower_bound</span>(now);</span><br><span class="line">    <span class="keyword">if</span> (it==s.<span class="built_in">begin</span>()||(<span class="built_in">prev</span>(it))-&gt;second &lt; l[u])</span><br><span class="line">    &#123;</span><br><span class="line">        s.<span class="built_in">insert</span>(now); ins = now;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((<span class="built_in">prev</span>(it))-&gt;second &gt; r[u])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">auto</span> pre = <span class="built_in">prev</span>(it);</span><br><span class="line">        s.<span class="built_in">insert</span>(now); ins = now;</span><br><span class="line">        era = *pre; s.<span class="built_in">erase</span>(pre);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = e[i].to;</span><br><span class="line">        <span class="keyword">if</span> (v == f)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs2</span>(v, u);</span><br><span class="line">    &#125;</span><br><span class="line">    ma = <span class="built_in">max</span>(ma, (<span class="keyword">int</span>)s.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">if</span> (era.first)</span><br><span class="line">    &#123;</span><br><span class="line">        s.<span class="built_in">insert</span>(era);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(now.first)</span><br><span class="line">    s.<span class="built_in">erase</span>(now);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n); ma = <span class="number">0</span>; s.<span class="built_in">clear</span>();</span><br><span class="line">    s.<span class="built_in">insert</span>(<span class="built_in">mapa</span>(<span class="number">1e9</span>, <span class="number">1e9</span>));</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)head[i] = <span class="number">0</span>;</span><br><span class="line">    ecnt = <span class="number">0</span>; dfn_clock = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;a[i]);<span class="comment">// add(a[i], i); add(i, a[i]);//a</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;u); <span class="built_in">add</span>(u, i); <span class="built_in">add</span>(i, u);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>); ecnt = <span class="number">0</span>; <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)head[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)<span class="built_in">add</span>(a[i], i), <span class="built_in">add</span>(i, a[i]);</span><br><span class="line">    <span class="built_in">dfs2</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ma<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="keyword">int</span> _ = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;_);</span><br><span class="line">    <span class="comment">//cin &gt;&gt; _;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOCAL</span></span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;in.in&quot;</span>, <span class="string">&quot;r&quot;</span>, stdin);</span><br><span class="line">    <span class="built_in">freopen</span>(<span class="string">&quot;out.out&quot;</span>, <span class="string">&quot;w&quot;</span>, stdout);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= _; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">slv</span>();</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="comment">//printf(&quot;\n&quot;); fflush(stdout);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//多 练</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -496,7 +381,7 @@ int main() &#123;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
