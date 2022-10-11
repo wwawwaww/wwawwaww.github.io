@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算几何可能一辈子用不上的一些东西，但是感觉好像有反演的题，所以再学一遍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="平面几何复习">
+<meta property="og:url" content="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="计算几何可能一辈子用不上的一些东西，但是感觉好像有反演的题，所以再学一遍">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-02T10:44:56.000Z">
+<meta property="article:modified_time" content="2022-10-11T12:59:45.087Z">
+<meta property="article:author" content="wwawwaww">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>平面几何复习 | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/imgs/lily.png">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          平面几何复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-02 18:44:56" itemprop="dateCreated datePublished" datetime="2022-09-02T18:44:56+08:00">2022-09-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="url" rel="index"><span itemprop="name">计算几何</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>计算几何可能一辈子用不上的一些东西，但是感觉好像有反演的题，所以再学一遍</p>
+<span id="more"></span>
+<h3 id="圆幂定理">圆幂定理</h3>
+<p>​	定义：对于一个圆心为$O$、半径为$r$的圆，若过点$P$作直线与$\odot O$交于两点$A,B$，则$\vec{PA}\cdot\vec{PB}$是一个定值，为$OP^2-r^2$，将其定义为$P$到$\odot O$的幂，记作$\Omega(P,\odot O)$。</p>
+<p>​	证明比较显然，是相交弦定理、切割线定理和割线定理的归纳。</p>
+<h3 id="根轴">根轴</h3>
+<p>定义：到两非同心圆幂相等的点的轨迹是一条直线，称为两圆的根轴。</p>
+<p>结论1：根轴垂直于两圆心连线。当两圆相交或相切时，根轴为相交弦所在直线（或过切点的公切线）。当两圆相离时，设点$P$在$O_1,O_2$的根轴上（$r_1&gt;r_2$），则$PO_1^2-PO_2^2=r_1^2-r_2^2$。设根轴与$O_1O_2$交于$M$,$O_1O_2$中点$D$，则由广义勾股定理（设D是三角形ABC（C为直角）边BC上一点，则$AB^2=BC^2+AC^2-2\vec{DB}\cdot\vec{DC}$）：</p>
+<p>$PO_1^2=PD^2+O_1D^2+2DO_1\cdot DM,PO_2^2=PD^2+O_2D^2-2DO_2\cdot DM$</p>
+<p>相减得$DM=\frac{r_1^2-r_2^2}{2O_1O_2}=const$.</p>
+<p>结论2：三个圆两两根轴相交于一点或相互平行。证明：若有两条根轴相交，则交点对三个圆的圆幂相等，也在第三条根轴上。这个点称为根心。</p>
+<p>结论3：一点对不同心两圆圆幂差等于该点到根轴距离乘以圆心距之积的两倍。</p>
+<h3 id="调和相关">调和相关</h3>
+<h4 id="调和点列">调和点列</h4>
+<p>定义：若点$C，D$内分和外分同一线段$AB$为同一比例，即$\frac{AC}{CB}=\frac{AD}{DB}$，则称点$C,D$调和分割$AB$。$A,B;C,D$称为调和点列。若直线$AB$外有一点$P$，则射线$PA,PB;PC,PD$称为调和线束。点$C,D$调和分割$AB$的充要条件（设从左到右依次为ACBD）：</p>
+<p>1：点$A,B$调和分割$CD$，即四点调和是等价的。</p>
+<p>2：$\frac{1}{AC}+\frac{1}{AD}=\frac{2}{AB}$.(没什么用，不证了)</p>
+<p>3：$AB\cdot CD=2AD\cdot BC=2AC\cdot BD$（也没什么用）</p>
+<p>4：若$M$为$AB$中点，$CA\cdot CB=CM\cdot CD,DA\cdot DB=DM\cdot DC$.（也没什么用）</p>
+<p>5：$MA^2=MB^2=MC\cdot MD$。任取过$CD$的圆$w_1$,与$AD$切于$B$点的圆$w_2$，该性质说明$M$在$w_1,w_2$的根轴上。</p>
+<p>6：三角形$ABC$内切圆$\odot I$与$BC,CA,AB$切于$D,E,F$.$EF,BC$交于点$P$。则$B,C,D,P$构成调和点列。证明：对截线FEP用梅涅劳斯定理。</p>
+<p>![](平面几何复习\屏幕截图 2022-09-02 205059.png)</p>
+<p>7.如果允许无穷远点的存在，当$AC=BC$时，$D$位于无穷远点，此时也可称$(A,B;C,D)$构成调和点列。</p>
+<h4 id="调和线束">调和线束</h4>
+<p>定义见上。引入角元形式：$PA,PB,PC,PD$成调和线束$\Leftrightarrow \sin\alpha\sin\gamma=sin\beta\sin(\alpha+\beta+\gamma)$.证明：由定义知$\frac{AC}{CB}=\frac{AD}{DB}$,而$\frac{AC}{CB}=\frac{PA\sin\alpha}{PB\sin\beta},\frac{AD}{DB}=\frac{PA\sin(\alpha+\beta+\gamma)}{PB\sin\gamma}$(正弦定理)，得证。</p>
+<p>发现调和线束只与角有关，于$ACBD$所在直线无关，用另一直线截得的四个点也构成调和点列。</p>
+<p>![](屏幕截图 2022-09-02 210505.png)</p>
+<p>对于$A,C,B,D$，以下四个任意两个可推出另外两个：</p>
+<p>1.$PC$平分角$APB$；2.$PD$是$APB$的外角平分线；3.$(A,B;C,D)$调和；4.$PC\perp PD$.证明略。</p>
+<p>同时可以发现，固定$AB$，使得$\frac{PA}{PB}$为定值的点$P$的轨迹是以$CD$为直径的圆，称为阿波罗尼斯(Apollonius)圆，简称阿氏圆。证明：$\frac{PA}{PB}=\frac{AC}{CB}$(正弦定理)。</p>
+<p>![](屏幕截图 2022-09-02 221605.png)</p>
+<h4 id="调和四边形">调和四边形</h4>
+<p>定义：对边乘积相等的圆内接四边形。</p>
+<p>过点$P$作切线$PA,PB$，$P,C,D$共线，$AB,CD$交于$E$，则$ACBD$为调和四边形，$P,E;C,D$为调和点列。证明略。</p>
+<p>![](屏幕截图 2022-09-02 215225.png)</p>
+<h3 id="圆反演">圆反演</h3>
+<p>有空再写吧</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/18/2022-8%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="prev" title="2022.8做/补题记录">
+      <i class="fa fa-chevron-left"></i> 2022.8做/补题记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/11/%E5%87%B8%E4%BC%98%E5%8C%96-wqs%E4%BA%8C%E5%88%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="凸优化/wqs二分学习笔记">
+      凸优化/wqs二分学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%86%E5%B9%82%E5%AE%9A%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">圆幂定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E8%BD%B4"><span class="nav-number">2.</span> <span class="nav-text">根轴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%92%8C%E7%9B%B8%E5%85%B3"><span class="nav-number">3.</span> <span class="nav-text">调和相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%92%8C%E7%82%B9%E5%88%97"><span class="nav-number">3.1.</span> <span class="nav-text">调和点列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%92%8C%E7%BA%BF%E6%9D%9F"><span class="nav-number">3.2.</span> <span class="nav-text">调和线束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%92%8C%E5%9B%9B%E8%BE%B9%E5%BD%A2"><span class="nav-number">3.3.</span> <span class="nav-text">调和四边形</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%86%E5%8F%8D%E6%BC%94"><span class="nav-number">4.</span> <span class="nav-text">圆反演</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wwawwaww"
+      src="/imgs/lily.png">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
