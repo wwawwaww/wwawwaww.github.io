@@ -20,10 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="-">
+<meta property="og:type" content="article">
 <meta property="og:title" content="2022.8做&#x2F;补题记录">
 <meta property="og:url" content="http://example.com/2022/08/18/2022-8%E5%81%9A%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-18T14:59:28.000Z">
 <meta property="article:modified_time" content="2022-10-11T15:35:57.476Z">
@@ -255,25 +257,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
-<li></li>
-</ul>
+        <p>-</p>
 <span id="more"></span>
-<h4 id="CF1323D-Present">CF1323D Present</h4>
-<p>题意：求$\oplus_{1\le i&lt;j\le n} (a_i+a_j)$。$n\le 400000,1\le a\le 10^7$。</p>
-<p>​	本来以为套FFT直接乘能过的，然后MLE了。自然想到算每一位的贡献，但是进位难处理一些。算第$k$位的答案时，把每个数对$2^{k+1}$取模得到$b$。若$b_i+b_j$落在$[2^k,2^{k+1}-1]$或$[2^{k+1}+2^k,2^{k+2}-2]$范围则进行一次反转。问题变为怎么统计和落在一个区间的无序对个数。可以二分，也可以双指针。改为统计有序对个数：对$b$排序，维护指针$l,r$。从大到小枚举$b_i$，则$b_j$对应区间端点不降。注意去掉$i=j$的情况，最后除以2即可。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1323/submission/171255136">https://codeforces.com/contest/1323/submission/171255136</a></p>
-<h4 id="CF936B-Sleepy-Game">CF936B Sleepy Game</h4>
-<p>题意：给一张有向图，起点$s$处有一个chip，有两人van游戏，每个回合要移动chip到相邻的节点，若不能移动，当前操作的玩家输。但是先手可以控制后手玩。问持续足够长时间后先手是胜利，失败或平局的情况。</p>
-<p>​	获胜情况就是原图存在一条长为奇数的路径（不一定简单路径）并且终点无出度。容易想到如果从起点出发能到达环至少不会输。考虑拆点来表示状态，每个点拆成两个点表示当前是谁访问，把边$u\rightarrow v$拆成$ u_0\rightarrow v_1,u_1\rightarrow v_0$。如果能到达$c_0$且$c$出度为0就赢了，对于新图的环，必然是偶数环，所以只能拖平局的作用。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/936/submission/167403902">https://codeforces.com/contest/936/submission/167403902</a></p>
-<h4 id="Gym103535K-Yiwen-with-Formula">Gym103535K  Yiwen with Formula</h4>
-<p>题意：给序列$a$，求$a$中所有非空子序列和的乘积模998244353。$n\le 10^5,\sum a_i\le 10^5$。</p>
+<h4 id="CF1323D-Present"><a href="#CF1323D-Present" class="headerlink" title="CF1323D Present"></a>CF1323D Present</h4><p>题意：求$\oplus_{1\le i&lt;j\le n} (a_i+a_j)$。$n\le 400000,1\le a\le 10^7$。</p>
+<p>​    本来以为套FFT直接乘能过的，然后MLE了。自然想到算每一位的贡献，但是进位难处理一些。算第$k$位的答案时，把每个数对$2^{k+1}$取模得到$b$。若$b_i+b_j$落在$[2^k,2^{k+1}-1]$或$[2^{k+1}+2^k,2^{k+2}-2]$范围则进行一次反转。问题变为怎么统计和落在一个区间的无序对个数。可以二分，也可以双指针。改为统计有序对个数：对$b$排序，维护指针$l,r$。从大到小枚举$b_i$，则$b_j$对应区间端点不降。注意去掉$i=j$的情况，最后除以2即可。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1323/submission/171255136">https://codeforces.com/contest/1323/submission/171255136</a> </p>
+<h4 id="CF936B-Sleepy-Game"><a href="#CF936B-Sleepy-Game" class="headerlink" title="CF936B Sleepy Game"></a>CF936B Sleepy Game</h4><p>题意：给一张有向图，起点$s$处有一个chip，有两人van游戏，每个回合要移动chip到相邻的节点，若不能移动，当前操作的玩家输。但是先手可以控制后手玩。问持续足够长时间后先手是胜利，失败或平局的情况。</p>
+<p>​    获胜情况就是原图存在一条长为奇数的路径（不一定简单路径）并且终点无出度。容易想到如果从起点出发能到达环至少不会输。考虑拆点来表示状态，每个点拆成两个点表示当前是谁访问，把边$u\rightarrow v$拆成$ u_0\rightarrow v_1,u_1\rightarrow v_0$。如果能到达$c_0$且$c$出度为0就赢了，对于新图的环，必然是偶数环，所以只能拖平局的作用。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/936/submission/167403902">https://codeforces.com/contest/936/submission/167403902</a> </p>
+<h4 id="Gym103535K-Yiwen-with-Formula"><a href="#Gym103535K-Yiwen-with-Formula" class="headerlink" title="Gym103535K  Yiwen with Formula"></a>Gym103535K  Yiwen with Formula</h4><p>题意：给序列$a$，求$a$中所有非空子序列和的乘积模998244353。$n\le 10^5,\sum a_i\le 10^5$。</p>
 <p>MTT板子题。由于$\sum a_i$很小，可以统计所有子序列中$1,2,\cdots,\sum a_i$出现的次数$cnt[i]$，则答案为$\prod _{x=0}^{\sum a_i}x^{cnt[x]-[x==0]}$。</p>
 <p>记$cnt$的生成函数为$F$,每个$a_i$可以选或不选，所以$F(x)=\prod_{i=1}^n(1+x^{a_i})$，但是$F$出现在指数上，需要对998244353-1这个非质数取模。用MTT+分治乘起来。复杂度两个log。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/gym/103535/submission/167432089">https://codeforces.com/gym/103535/submission/167432089</a></p>
-<h4 id="CF650D-Zip-line">CF650D   Zip-line</h4>
-<p>题意：给序列$a$和$q$次询问，问若将某个位置的数改为另一个数后，序列$a$的LIS长度。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/103535/submission/167432089">https://codeforces.com/gym/103535/submission/167432089</a> </p>
+<h4 id="CF650D-Zip-line"><a href="#CF650D-Zip-line" class="headerlink" title="CF650D   Zip-line"></a>CF650D   Zip-line</h4><p>题意：给序列$a$和$q$次询问，问若将某个位置的数改为另一个数后，序列$a$的LIS长度。</p>
 <p>$n,q\le 400000,a_i\le 10^9$。</p>
 <p>可以预处理求出原序列每个位置$i$结尾的LIS长度$l[i]$，以$i$开头的$r[i]$，以及原序列的LIS长度：$preans$。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getlis</span><span class="params">(<span class="keyword">int</span> *arr,<span class="keyword">int</span> *res)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len=<span class="number">0</span>;<span class="keyword">static</span> <span class="keyword">int</span> tmp[MAXN];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> pos=<span class="built_in">lower_bound</span>(tmp+<span class="number">1</span>,tmp+len+<span class="number">1</span>,arr[i])-tmp;</span><br><span class="line">        <span class="keyword">if</span>(pos==len+<span class="number">1</span>)tmp[++len]=arr[i];</span><br><span class="line">        <span class="keyword">else</span> tmp[pos]=<span class="built_in">min</span>(arr[i],tmp[pos]);</span><br><span class="line">        res[i]=pos;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -283,50 +279,40 @@
 <p>用上文拼接的方式确定原序列中包含$a_i$的LIS长度，若等于原序列LIS长度，则$a_i$可能在LIS中。</p>
 <p>对于一个可以在 LIS 中的数，如果$i$左边有不小于$a_i$的数可以在LIS中，则它可以不在 LIS 中； 右边同理。</p>
 <p>最后对于统计$[1,i-1]$中，不超过$a_i’$最大值的经典问题，可以离线+树状数组解决。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/650/submission/167777942">https://codeforces.com/contest/650/submission/167777942</a></p>
-<h4 id="CF1173D-Nauuo-and-Circle">CF1173D  Nauuo and Circle</h4>
-<p>题意：给一棵树。在圆上有$n$个节点，要给这$n$个节点编号，使得编号后树在平面上没有交叉，求方案数。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/650/submission/167777942">https://codeforces.com/contest/650/submission/167777942</a> </p>
+<h4 id="CF1173D-Nauuo-and-Circle"><a href="#CF1173D-Nauuo-and-Circle" class="headerlink" title="CF1173D  Nauuo and Circle"></a>CF1173D  Nauuo and Circle</h4><p>题意：给一棵树。在圆上有$n$个节点，要给这$n$个节点编号，使得编号后树在平面上没有交叉，求方案数。</p>
 <p>对于一棵子树，它对应的一定是连续的一段区间。固定根$p_1=1$，对于节点1，我们可以排列它的$deg_1$棵子树，对于非根节点$x$，也可以排列它的$deg_x-1$棵子树和父亲。所以答案为$n\prod deg_i$。</p>
-<h4 id="CF1709E-XOR-Tree">CF1709E  XOR Tree</h4>
-<p>题意：一棵树上点有点权$a_i$。一次操作可以把一个点的点权修改为任意值。求至少需要多少次操作，使树上不存在简单路径的点权异或和为0。</p>
+<h4 id="CF1709E-XOR-Tree"><a href="#CF1709E-XOR-Tree" class="headerlink" title="CF1709E  XOR Tree"></a>CF1709E  XOR Tree</h4><p>题意：一棵树上点有点权$a_i$。一次操作可以把一个点的点权修改为任意值。求至少需要多少次操作，使树上不存在简单路径的点权异或和为0。</p>
 <p>路径异或可以转为前缀异或。从下往上递归，考虑$x$的子树内，且经过$x$的路径。如果存在一条异或为0的路径，我们可以修改$a_x$为合适值使得之后任何通过$x$的路径异或都不为0，等效于删掉了这棵子树，所以是最优的。具体统计方法是：开n个set维护每个子树内的所有前缀异或，启发式合并set。当合并以$x$为根的两个儿子时，暴力检查是否存在$s_p\oplus s_q\oplus a_x=0$，如果存在则清空$x$，否则启发式合并，小的插进大的。</p>
 <p>需要注意的是，子树大小的size和set大小的set不是同一个东西，不能预先处理得到重儿子son。需要边递归边维护。STL中swap是O(1)的，如果有$x$儿子的set大小比当前大就swap儿子和x的set。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1709/submission/168845012">https://codeforces.com/contest/1709/submission/168845012</a></p>
-<h4 id="CF1691E-Number-of-Groups">CF1691E  Number of Groups</h4>
-<p>题意：$n\le 200000$条线段，线段有两种颜色，如果两种线段颜色不同且有交集，则它们连通，这种连通关系可以传递。求连通块的个数。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1709/submission/168845012">https://codeforces.com/contest/1709/submission/168845012</a> </p>
+<h4 id="CF1691E-Number-of-Groups"><a href="#CF1691E-Number-of-Groups" class="headerlink" title="CF1691E  Number of Groups"></a>CF1691E  Number of Groups</h4><p>题意：$n\le 200000$条线段，线段有两种颜色，如果两种线段颜色不同且有交集，则它们连通，这种连通关系可以传递。求连通块的个数。</p>
 <p>扫描线+并查集。</p>
 <p>记录端点类型（左/右）、另一端坐标、线段颜色后，按端点从左到右排序，坐标相同的先插入后删除。维护两个颜色线段的集合。如果扫到左端点，加入对应的颜色集合，连接异色集合中所有线段。遇到右端点时，在集合中删除对应线段。但是这样在连接的时候可能退化为$O(n^2)$。在连接后，我们仅保留右端点最靠右的一个线段，因为其它线段已经与其最靠右的连接了。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1691/submission/168495039">https://codeforces.com/contest/1691/submission/168495039</a></p>
-<h4 id="CF990G-GCD-Counting">CF990G GCD Counting</h4>
-<p>题意：给一棵树，点有点权$a_i\le 200000$。对每个$i=1,2,\cdots200000$，求简单路径$\gcd=i$的个数。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1691/submission/168495039">https://codeforces.com/contest/1691/submission/168495039</a> </p>
+<h4 id="CF990G-GCD-Counting"><a href="#CF990G-GCD-Counting" class="headerlink" title="CF990G GCD Counting"></a>CF990G GCD Counting</h4><p>题意：给一棵树，点有点权$a_i\le 200000$。对每个$i=1,2,\cdots200000$，求简单路径$\gcd=i$的个数。</p>
 <p>不会点分治，只会莫反做法。</p>
 <p>看到gcd就想到莫比乌斯反演，但是如果你用$f(d)=\sum_{d|n}F(d)\mu(\frac{n}{d})$的话就会寄，因为$F(n)=\sum_{d|n}f(d)$也不好求。有另一种形式：$f(n)=\sum_{n|d}F(d)\mu(\frac{d}{n}),F(n)=\sum_{n|d}f(d)$，意义为链gcd是$n$的倍数的个数，把图分层后好求，一个连通块的贡献为$sz*(sz+1)/2$。</p>
 <p>有结论：200000以内的数最大因子数不超过160。建分层图后，所以每个点最多连向外连160条边。把每个点含有的所有因子加入起始点集，枚举$i$，从这些点出发求连通块得到$F(i)$，最后反演回去。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/990/submission/168726401">https://codeforces.com/contest/990/submission/168726401</a></p>
-<h4 id="CF1418D-Trash-Problem">CF1418D  Trash Problem</h4>
-<p>题意：对于一个动态插入，删除的序列$x_1,x_2,\cdots,x_n$，多次询问$x_n-x_1-\max(x_{i+1}-x_i),n\ge2;0,n&lt;2$。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/990/submission/168726401">https://codeforces.com/contest/990/submission/168726401</a> </p>
+<h4 id="CF1418D-Trash-Problem"><a href="#CF1418D-Trash-Problem" class="headerlink" title="CF1418D  Trash Problem"></a>CF1418D  Trash Problem</h4><p>题意：对于一个动态插入，删除的序列$x_1,x_2,\cdots,x_n$，多次询问$x_n-x_1-\max(x_{i+1}-x_i),n\ge2;0,n&lt;2$。</p>
 <p>题面确实挺Trash，当时困得不行看不下去了，第二天才发现是个模拟。$x_n$和$x_1$都挺好维护，重点是后面的差值。用一个multiset维护差值集合。若插入一个数$x$，则找到该数的前驱$pre$和后继$nxt$，如果对应前驱或后继存在的话，插入$x-pre,nxt-x$，删除$nxt-pre$。删除操作反过来就行。注意一下$pre$或$nxt$不存在的情况就行。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1418/submission/169584046">https://codeforces.com/contest/1418/submission/169584046</a></p>
-<h4 id="CF1491D-Zookeeper-and-The-Infinite-Zoo">CF1491D  Zookeeper and The Infinite Zoo</h4>
-<p>题意：一张有向图按以下规则生成：对于任意两个正整数$u,v$，若$u\ and\ v=v$，则存在一条$u$到$u+v$的有向边。多组询问，询问$x$是否能到$y$。$x,y&lt; 2^{31}$。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1418/submission/169584046">https://codeforces.com/contest/1418/submission/169584046</a> </p>
+<h4 id="CF1491D-Zookeeper-and-The-Infinite-Zoo"><a href="#CF1491D-Zookeeper-and-The-Infinite-Zoo" class="headerlink" title="CF1491D  Zookeeper and The Infinite Zoo"></a>CF1491D  Zookeeper and The Infinite Zoo</h4><p>题意：一张有向图按以下规则生成：对于任意两个正整数$u,v$，若$u\ and\ v=v$，则存在一条$u$到$u+v$的有向边。多组询问，询问$x$是否能到$y$。$x,y&lt; 2^{31}$。</p>
 <p>因为考虑连通性，每次可以只加2的幂次。发现$x$能到的就是将$x$的二进制表示中的1左移。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1491/submission/168413128">https://codeforces.com/contest/1491/submission/168413128</a></p>
-<h4 id="CF446C-DZY-Loves-Fibonacci-Numbers">CF446C  DZY Loves Fibonacci Numbers</h4>
-<p>题意：两种操作，一是区间$[l,r]$加$F_{i-l+1},F$是斐波那契数列；二是查询区间和对1e9+9取模。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1491/submission/168413128">https://codeforces.com/contest/1491/submission/168413128</a> </p>
+<h4 id="CF446C-DZY-Loves-Fibonacci-Numbers"><a href="#CF446C-DZY-Loves-Fibonacci-Numbers" class="headerlink" title="CF446C  DZY Loves Fibonacci Numbers"></a>CF446C  DZY Loves Fibonacci Numbers</h4><p>题意：两种操作，一是区间$[l,r]$加$F_{i-l+1},F$是斐波那契数列；二是查询区间和对1e9+9取模。</p>
 <p>5在1e9+9下是有二次剩余的，写出通项后变为区间加等比数列，区间和的问题。显然用线段树懒标记可以解决，对每个节点维护一下其左端点加的值，下传的时候预处理一下幂和即可。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/446/submission/168265818">https://codeforces.com/contest/446/submission/168265818</a></p>
-<h4 id="CF429D-Tricky-Function">CF429D  Tricky Function</h4>
-<p>平面最近点对板题。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/446/submission/168265818">https://codeforces.com/contest/446/submission/168265818</a> </p>
+<h4 id="CF429D-Tricky-Function"><a href="#CF429D-Tricky-Function" class="headerlink" title="CF429D  Tricky Function"></a>CF429D  Tricky Function</h4><p>平面最近点对板题。</p>
 <p>先按x坐标-y坐标将点排序，然后递归处理左右，以及跨过左右的答案。假如左右两半的答案取最小值之后为$d$，对于第$i$个点，只需考虑$x_i-d\le x\le x_i+d,y_i-d\le y\le y_i$矩形内的点。可以证明这个矩形内的点数不超过6（好像5也行，反正很少），我们只需再对y坐标排序即可，采用归并排序可以做到$O(n\log n)$。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/429/submission/168279278">https://codeforces.com/contest/429/submission/168279278</a></p>
-<h4 id="gym103743B-Prime-Ring-Plus">gym103743B Prime Ring Plus</h4>
-<p>题意：有n个点，编号为1到n，要求构造一些长度至少为3的环满足环上相邻两个点编号之和为质数，有解则输出方案，或说明无解。$n\le 10^4$。</p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/contest/429/submission/168279278">https://codeforces.com/contest/429/submission/168279278</a> </p>
+<h4 id="gym103743B-Prime-Ring-Plus"><a href="#gym103743B-Prime-Ring-Plus" class="headerlink" title="gym103743B Prime Ring Plus"></a>gym103743B Prime Ring Plus</h4><p>题意：有n个点，编号为1到n，要求构造一些长度至少为3的环满足环上相邻两个点编号之和为质数，有解则输出方案，或说明无解。$n\le 10^4$。</p>
 <p>由于偶质数只有2且不可能被两个不同的正整数表示出，所以必要条件是两数之和为奇数，于是答案一定是二分图。奇数点和偶数点之间连容量为1的边，源和汇向两端连容量为2的边，跑网络流，满流即有解。输出方案看哪条边容量为0说明被选。</p>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/gym/103743/submission/166498977">https://codeforces.com/gym/103743/submission/166498977</a></p>
-<h4 id="Kattis-Another-Coin-Weighing-Puzzle">Kattis Another Coin Weighing Puzzle</h4>
-<p><a target="_blank" rel="noopener" href="https://vjudge.net/problem/Kattis-anothercoinweighingpuzzle">题目链接</a></p>
-<p>挺神的一道计数题。。丢个链接自己看吧https://www.cnblogs.com/limil/p/15172239.html</p>
-<p><a target="_blank" rel="noopener" href="https://vjudge.net/solution/37417368">https://vjudge.net/solution/37417368</a></p>
+<p> <a target="_blank" rel="noopener" href="https://codeforces.com/gym/103743/submission/166498977">https://codeforces.com/gym/103743/submission/166498977</a> </p>
+<h4 id="Kattis-Another-Coin-Weighing-Puzzle"><a href="#Kattis-Another-Coin-Weighing-Puzzle" class="headerlink" title="Kattis Another Coin Weighing Puzzle"></a>Kattis Another Coin Weighing Puzzle</h4><p><a target="_blank" rel="noopener" href="https://vjudge.net/problem/Kattis-anothercoinweighingpuzzle">题目链接</a> </p>
+<p>挺神的一道计数题。。丢个链接自己看吧<a target="_blank" rel="noopener" href="https://www.cnblogs.com/limil/p/15172239.html">https://www.cnblogs.com/limil/p/15172239.html</a> </p>
+<p><a target="_blank" rel="noopener" href="https://vjudge.net/solution/37417368">https://vjudge.net/solution/37417368</a> </p>
 
     </div>
 

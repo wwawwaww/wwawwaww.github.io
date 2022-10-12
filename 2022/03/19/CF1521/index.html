@@ -258,7 +258,7 @@
 <p>如果$B=1$无解，因为$A=AB$.否则可以$A·1+A·(2B-1)=2AB$。</p>
 <p>B.定义一个数组是好的当$\gcd(a_{i-1},a_i)=1$对$2\le i\le n$成立。你可以进行不超过$n$次操作，一次操作选择$i\neq j$和$x,y$满足$\min(a_i,a_j)=\min(x,y)$，把$a_i$换成$x$，把$a_j$换成$y$。求一种方案。初始$a_i\le 10^9.x,y\le2\times 10^9,n\le 200000$.</p>
 <p>换的要求是小的值保留，大的可以换成任意不比小值小的数。可以考虑把大的换成大质数1000000007。把偶数位换了就行。</p>
-<p>C.交互题，要猜一个长为$n$的排列，有两种询问方式。格式为<code>? t i j x </code>。若$t=1$，程序返回$\max(\min(x,p_i),\min(x+1,p_j))$。若$t=2$，返回$\min(\max(x,p_i),\max(x+1,p_j))$。询问次数$\frac{3n}{2}+30,1\le x\le n-1,i\neq j,1\le i,j\le n$。</p>
+<p>C.交互题，要猜一个长为$n$的排列，有两种询问方式。格式为<code>? t i j x</code>。若$t=1$，程序返回$\max(\min(x,p_i),\min(x+1,p_j))$。若$t=2$，返回$\min(\max(x,p_i),\max(x+1,p_j))$。询问次数$\frac{3n}{2}+30,1\le x\le n-1,i\neq j,1\le i,j\le n$。</p>
 <p>给的东西有点多，而且式子套max和min。先固定$x=1/n$,看看能不能消掉一些。</p>
 <ol>
 <li>$t=1,x=1:ans=\max(\min(1,p_i),\min(2,p_j))=\min(2,p_j).$</li>

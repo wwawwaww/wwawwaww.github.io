@@ -263,11 +263,9 @@
 <p>若$div$为合数，则可以拆$div$，有解。以下情况$div$为质数或1。</p>
 <p>若$div$为质数且$d$也为质数，只有一种方案，无解。以下情况$div$为质数或1，且$d$为合数。</p>
 <ul>
-<li>
-<p>若$k\ge 4$，可以考虑拆一个$d=pq$，即$x=\underbrace{(d·div)·(d)\cdots(d)}<em>{k}=(d·div)·(pd)·(qd)\times\underbrace{\cdots(d)}</em>{k-3}$.</p>
+<li><p>若$k\ge 4$，可以考虑拆一个$d=pq$，即$x=\underbrace{(d·div)·(d)\cdots(d)}_{k}=(d·div)·(pd)·(qd)\times\underbrace{\cdots(d)}_{k-3}$.</p>
 </li>
-<li>
-<p>否则，$k=3$.</p>
+<li><p>否则，$k=3$.</p>
 <p>如果$d$里含有与$div$互质的因子$p$，则可以拆部分$d$.有解。</p>
 <p>否则，$d=div^u$.若$u\ge 3$，有解，否则$u=2$无解。</p>
 </li>

@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目链接 时间：2022.03.02 依旧是4道。。昨天是星期二，因为课太多了挤不出完整时间打。。 2022.03.11修了一个显示bug（&amp;公式里显示成Misplaced &amp;,吐了）">
+  <meta name="description" content="题目链接 时间：2022.03.02 依旧是4道。。昨天是星期二，因为课太多了挤不出完整时间打。。 2022.03.11修了一个显示bug（\&amp;公式里显示成Misplaced &amp;,吐了）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Codeforces Round 597 Div 2 A-D,F">
 <meta property="og:url" content="http://example.com/2022/03/05/CF1245/index.html">
 <meta property="og:site_name" content="wwawwaww&#39;s blog">
-<meta property="og:description" content="题目链接 时间：2022.03.02 依旧是4道。。昨天是星期二，因为课太多了挤不出完整时间打。。 2022.03.11修了一个显示bug（&amp;公式里显示成Misplaced &amp;,吐了）">
+<meta property="og:description" content="题目链接 时间：2022.03.02 依旧是4道。。昨天是星期二，因为课太多了挤不出完整时间打。。 2022.03.11修了一个显示bug（\&amp;公式里显示成Misplaced &amp;,吐了）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-05T08:30:42.000Z">
 <meta property="article:modified_time" content="2022-03-19T10:45:10.416Z">
@@ -255,14 +255,14 @@
         <p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1245">题目链接</a></p>
 <p>时间：2022.03.02</p>
 <p>依旧是4道。。昨天是星期二，因为课太多了挤不出完整时间打。。</p>
-<p>2022.03.11修了一个显示bug（&amp;公式里显示成Misplaced &amp;,吐了）</p>
+<p>2022.03.11修了一个显示bug（\&amp;公式里显示成Misplaced &amp;,吐了）</p>
 <span id="more"></span>
 <p>A.</p>
 <p>给定两个正整数$a,b$，现在将0，1，2，…染色，0染成白色。如果$i-a$或$i-b$是白色，则将$i$染成白色，否则$i$为黑色。问0，1，…，到正无穷黑色的数量是有限还是无限。</p>
 <p>先说结论。如果$\gcd(a,b)=1$就是有限，否则为无限。证明：</p>
 <p>如果$\gcd(a,b)=1$，则说明存在正整数$x,y$使得$ax-by=1$，于是存在正整数$x_d,y_d$使得$ax_d-by_d=d,1\le d\le a$.然后模$[0,a-1]$都可以被遍历到，所以黑色有限；否则的话，与$\gcd(a,b)$互质的数都是黑色，是无限的。</p>
 <p>B.</p>
-<p>Alice和Bob玩剪刀石头布$n$次，Alice会出$a$次石头®，$b$次布§，$c$次剪刀(S)。你知道Bob在第$1,2,…,n$出什么，现在要分配Alice的出法，使得Alice至少赢$\lceil\frac{n}{2}\rceil$次，如果可以则输出方案，不可以则输出No。</p>
+<p>Alice和Bob玩剪刀石头布$n$次，Alice会出$a$次石头(R)，$b$次布(P)，$c$次剪刀(S)。你知道Bob在第$1,2,…,n$出什么，现在要分配Alice的出法，使得Alice至少赢$\lceil\frac{n}{2}\rceil$次，如果可以则输出方案，不可以则输出No。</p>
 <p>考虑贪心，Alice赢的最大次数应该是$min(a,cnta)+min(b,cntb)+min(c,cntc)$,$cnta,cntb,cntc$是Bob中对应的次数。有限让这些能赢的都赢，其他的任意分配就行。第一次循环，如果能赢才用；第二次把剩下的填了就行。</p>
 <p>C.</p>
 <p>有一个机器，接收一个由小写英文字母组成的字符串，会把所有的<code>w</code>替换成子串<code>uu</code>,把<code>m</code>替换成子串<code>nn</code>，其余部分不变。现在给出其输出，求有多少种输入与之对应，对1e9+7取模。</p>

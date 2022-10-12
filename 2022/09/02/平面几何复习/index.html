@@ -27,10 +27,15 @@
 <meta property="og:site_name" content="wwawwaww&#39;s blog">
 <meta property="og:description" content="计算几何可能一辈子用不上的一些东西，但是感觉好像有反演的题，所以再学一遍">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/屏幕截图%202022-09-02%20205059.png">
+<meta property="og:image" content="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/屏幕截图%202022-09-02%20210505.png">
+<meta property="og:image" content="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/屏幕截图%202022-09-02%20221605.png">
+<meta property="og:image" content="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/屏幕截图%202022-09-02%20215225.png">
 <meta property="article:published_time" content="2022-09-02T10:44:56.000Z">
-<meta property="article:modified_time" content="2022-10-11T13:06:51.145Z">
+<meta property="article:modified_time" content="2022-10-12T13:35:04.779Z">
 <meta property="article:author" content="wwawwaww">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/屏幕截图%202022-09-02%20205059.png">
 
 <link rel="canonical" href="http://example.com/2022/09/02/%E5%B9%B3%E9%9D%A2%E5%87%A0%E4%BD%95%E5%A4%8D%E4%B9%A0/">
 
@@ -248,41 +253,34 @@
       
         <p>计算几何可能一辈子用不上的一些东西，但是感觉好像有反演的题，所以再学一遍</p>
 <span id="more"></span>
-<h3 id="圆幂定理">圆幂定理</h3>
-<p>​	定义：对于一个圆心为$O$、半径为$r$的圆，若过点$P$作直线与$\odot O$交于两点$A,B$，则$\vec{PA}\cdot\vec{PB}$是一个定值，为$OP^2-r^2$，将其定义为$P$到$\odot O$的幂，记作$\Omega(P,\odot O)$。</p>
-<p>​	证明比较显然，是相交弦定理、切割线定理和割线定理的归纳。</p>
-<h3 id="根轴">根轴</h3>
-<p>定义：到两非同心圆幂相等的点的轨迹是一条直线，称为两圆的根轴。</p>
+<h3 id="圆幂定理"><a href="#圆幂定理" class="headerlink" title="圆幂定理"></a>圆幂定理</h3><p>​    定义：对于一个圆心为$O$、半径为$r$的圆，若过点$P$作直线与$\odot O$交于两点$A,B$，则$\vec{PA}\cdot\vec{PB}$是一个定值，为$OP^2-r^2$，将其定义为$P$到$\odot O$的幂，记作$\Omega(P,\odot O)$。</p>
+<p>​    证明比较显然，是相交弦定理、切割线定理和割线定理的归纳。</p>
+<h3 id="根轴"><a href="#根轴" class="headerlink" title="根轴"></a>根轴</h3><p>定义：到两非同心圆幂相等的点的轨迹是一条直线，称为两圆的根轴。</p>
 <p>结论1：根轴垂直于两圆心连线。当两圆相交或相切时，根轴为相交弦所在直线（或过切点的公切线）。当两圆相离时，设点$P$在$O_1,O_2$的根轴上（$r_1&gt;r_2$），则$PO_1^2-PO_2^2=r_1^2-r_2^2$。设根轴与$O_1O_2$交于$M$,$O_1O_2$中点$D$，则由广义勾股定理（设D是三角形ABC（C为直角）边BC上一点，则$AB^2=BC^2+AC^2-2\vec{DB}\cdot\vec{DC}$）：</p>
 <p>$PO_1^2=PD^2+O_1D^2+2DO_1\cdot DM,PO_2^2=PD^2+O_2D^2-2DO_2\cdot DM$</p>
 <p>相减得$DM=\frac{r_1^2-r_2^2}{2O_1O_2}=const$.</p>
 <p>结论2：三个圆两两根轴相交于一点或相互平行。证明：若有两条根轴相交，则交点对三个圆的圆幂相等，也在第三条根轴上。这个点称为根心。</p>
 <p>结论3：一点对不同心两圆圆幂差等于该点到根轴距离乘以圆心距之积的两倍。</p>
-<h3 id="调和相关">调和相关</h3>
-<h4 id="调和点列">调和点列</h4>
-<p>定义：若点$C，D$内分和外分同一线段$AB$为同一比例，即$\frac{AC}{CB}=\frac{AD}{DB}$，则称点$C,D$调和分割$AB$。$A,B;C,D$称为调和点列。若直线$AB$外有一点$P$，则射线$PA,PB;PC,PD$称为调和线束。点$C,D$调和分割$AB$的充要条件（设从左到右依次为ACBD）：</p>
+<h3 id="调和相关"><a href="#调和相关" class="headerlink" title="调和相关"></a>调和相关</h3><h4 id="调和点列"><a href="#调和点列" class="headerlink" title="调和点列"></a>调和点列</h4><p>定义：若点$C，D$内分和外分同一线段$AB$为同一比例，即$\frac{AC}{CB}=\frac{AD}{DB}$，则称点$C,D$调和分割$AB$。$A,B;C,D$称为调和点列。若直线$AB$外有一点$P$，则射线$PA,PB;PC,PD$称为调和线束。点$C,D$调和分割$AB$的充要条件（设从左到右依次为ACBD）：</p>
 <p>1：点$A,B$调和分割$CD$，即四点调和是等价的。</p>
 <p>2：$\frac{1}{AC}+\frac{1}{AD}=\frac{2}{AB}$.(没什么用，不证了)</p>
 <p>3：$AB\cdot CD=2AD\cdot BC=2AC\cdot BD$（也没什么用）</p>
 <p>4：若$M$为$AB$中点，$CA\cdot CB=CM\cdot CD,DA\cdot DB=DM\cdot DC$.（也没什么用）</p>
 <p>5：$MA^2=MB^2=MC\cdot MD$。任取过$CD$的圆$w_1$,与$AD$切于$B$点的圆$w_2$，该性质说明$M$在$w_1,w_2$的根轴上。</p>
 <p>6：三角形$ABC$内切圆$\odot I$与$BC,CA,AB$切于$D,E,F$.$EF,BC$交于点$P$。则$B,C,D,P$构成调和点列。证明：对截线FEP用梅涅劳斯定理。</p>
-<p>![](屏幕截图 2022-09-02 205059.png)</p>
+<p><img src="屏幕截图 2022-09-02 205059.png" alt="屏幕截图 2022-09-02 205059.png"></p>
 <p>7.如果允许无穷远点的存在，当$AC=BC$时，$D$位于无穷远点，此时也可称$(A,B;C,D)$构成调和点列。</p>
-<h4 id="调和线束">调和线束</h4>
-<p>定义见上。引入角元形式：$PA,PB,PC,PD$成调和线束$\Leftrightarrow \sin\alpha\sin\gamma=sin\beta\sin(\alpha+\beta+\gamma)$.证明：由定义知$\frac{AC}{CB}=\frac{AD}{DB}$,而$\frac{AC}{CB}=\frac{PA\sin\alpha}{PB\sin\beta},\frac{AD}{DB}=\frac{PA\sin(\alpha+\beta+\gamma)}{PB\sin\gamma}$(正弦定理)，得证。</p>
+<h4 id="调和线束"><a href="#调和线束" class="headerlink" title="调和线束"></a>调和线束</h4><p>定义见上。引入角元形式：$PA,PB,PC,PD$成调和线束$\Leftrightarrow \sin\alpha\sin\gamma=sin\beta\sin(\alpha+\beta+\gamma)$.证明：由定义知$\frac{AC}{CB}=\frac{AD}{DB}$,而$\frac{AC}{CB}=\frac{PA\sin\alpha}{PB\sin\beta},\frac{AD}{DB}=\frac{PA\sin(\alpha+\beta+\gamma)}{PB\sin\gamma}$(正弦定理)，得证。</p>
 <p>发现调和线束只与角有关，于$ACBD$所在直线无关，用另一直线截得的四个点也构成调和点列。</p>
-<p>![](屏幕截图 2022-09-02 210505.png)</p>
+<p><img src="屏幕截图 2022-09-02 210505.png" alt=""></p>
 <p>对于$A,C,B,D$，以下四个任意两个可推出另外两个：</p>
 <p>1.$PC$平分角$APB$；2.$PD$是$APB$的外角平分线；3.$(A,B;C,D)$调和；4.$PC\perp PD$.证明略。</p>
 <p>同时可以发现，固定$AB$，使得$\frac{PA}{PB}$为定值的点$P$的轨迹是以$CD$为直径的圆，称为阿波罗尼斯(Apollonius)圆，简称阿氏圆。证明：$\frac{PA}{PB}=\frac{AC}{CB}$(正弦定理)。</p>
-<p>![](屏幕截图 2022-09-02 221605.png)</p>
-<h4 id="调和四边形">调和四边形</h4>
-<p>定义：对边乘积相等的圆内接四边形。</p>
+<p><img src="屏幕截图 2022-09-02 221605.png" alt="屏幕截图 2022-09-02 221605.png"></p>
+<h4 id="调和四边形"><a href="#调和四边形" class="headerlink" title="调和四边形"></a>调和四边形</h4><p>定义：对边乘积相等的圆内接四边形。</p>
 <p>过点$P$作切线$PA,PB$，$P,C,D$共线，$AB,CD$交于$E$，则$ACBD$为调和四边形，$P,E;C,D$为调和点列。证明略。</p>
-<p>![](屏幕截图 2022-09-02 215225.png)</p>
-<h3 id="圆反演">圆反演</h3>
-<p>有空再写吧</p>
+<p><img src="屏幕截图 2022-09-02 215225.png" alt="屏幕截图 2022-09-02 215225.png"></p>
+<h3 id="圆反演"><a href="#圆反演" class="headerlink" title="圆反演"></a>圆反演</h3><p>有空再写吧</p>
 
     </div>
 

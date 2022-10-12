@@ -251,62 +251,53 @@
 <p>公式显示不想改了，marrkdown是正常的但是网页渲染就是有小问题</p>
 <span id="more"></span>
 <p>[toc]</p>
-<h2 id="A-蜘蛛的网">A  蜘蛛的网</h2>
-<p>题意：给一个图，求至少要删掉多少条边使其不连通。$n\le 300,m\le 1000.$</p>
+<h2 id="A-蜘蛛的网"><a href="#A-蜘蛛的网" class="headerlink" title="A  蜘蛛的网"></a>A  蜘蛛的网</h2><p>题意：给一个图，求至少要删掉多少条边使其不连通。$n\le 300,m\le 1000.$</p>
 <p>Tag：全局最小割、Stoer-Wagner</p>
 <p>题解：</p>
-<p>​	如果图本来就不连通答案就是0；否则一定是有两个非空连通块，记为$L,R$.因此考虑转化为最小割。由最大流最小割定理，最大流等于最小割。假设删边的集合为$E$，任取一点$u\in L$,则至少存在一个点$v\in R$时$mincut(u,v)=E$.固定$u=1,v$取遍2到$n$跑Dinic最大流，取最小值即可。</p>
-<p>​	Dinic算法的过程：不断增广，先BFS给残留网络标号，然后DFS只走相邻层级的边，直到整个网络无法增广为止。时间复杂度：由于边权都为1，一次Dinic复杂度为$O(m\cdot\min(n^{\frac{2}{3}},\sqrt{m}))$.总复杂度$O(nm\cdot\min(n^{\frac{2}{3}},\sqrt{m}))=O(\min(n^{\frac{5}{3}},nm\sqrt{m})).$</p>
-<p>​	也可以用专门解决该问题的Stoer-Wagner算法来解决。<s>但是有Dinic板子就不用学了</s></p>
-<h2 id="B-土豆的图">B 土豆的图</h2>
-<p>题意：给一张无向连通图，每个点有点权$c_i$，每条边有边权$w_i$。一条$u$到$v$的路径的权值为经过的边里面的最大权值。定义$d(u,v)$为节点$u$到$v$的所有路径中，路径权值的最小值。求所有满足$|c_u-c_v|\ge L$的无序点对$(u,v)$的$d(u,v)$之和。$n\le2\times10^5,m\le5\times10^5,0\le c_i,L\le10^9,0\le w\le10^8$.</p>
+<p>​    如果图本来就不连通答案就是0；否则一定是有两个非空连通块，记为$L,R$.因此考虑转化为最小割。由最大流最小割定理，最大流等于最小割。假设删边的集合为$E$，任取一点$u\in L$,则至少存在一个点$v\in R$时$mincut(u,v)=E$.固定$u=1,v$取遍2到$n$跑Dinic最大流，取最小值即可。</p>
+<p>​    Dinic算法的过程：不断增广，先BFS给残留网络标号，然后DFS只走相邻层级的边，直到整个网络无法增广为止。时间复杂度：由于边权都为1，一次Dinic复杂度为$O(m\cdot\min(n^{\frac{2}{3}},\sqrt{m}))$.总复杂度$O(nm\cdot\min(n^{\frac{2}{3}},\sqrt{m}))=O(\min(n^{\frac{5}{3}},nm\sqrt{m})).$</p>
+<p>​    也可以用专门解决该问题的Stoer-Wagner算法来解决。<del>但是有Dinic板子就不用学了</del></p>
+<h2 id="B-土豆的图"><a href="#B-土豆的图" class="headerlink" title="B 土豆的图"></a>B 土豆的图</h2><p>题意：给一张无向连通图，每个点有点权$c_i$，每条边有边权$w_i$。一条$u$到$v$的路径的权值为经过的边里面的最大权值。定义$d(u,v)$为节点$u$到$v$的所有路径中，路径权值的最小值。求所有满足$|c_u-c_v|\ge L$的无序点对$(u,v)$的$d(u,v)$之和。$n\le2\times10^5,m\le5\times10^5,0\le c_i,L\le10^9,0\le w\le10^8$.</p>
 <p>Tag：最小瓶颈路、Kruskal重构树、树状数组</p>
 <p>题解：</p>
-<p>​	可以证明，一条最小瓶颈路的最小权值就是最小生成树上两点的距离。证明：反证法。考虑所有非树边，如果加入一条非树边后瓶颈边变小，那么用瓶颈边换掉最小生成树的边会得到更小的生成树，矛盾。</p>
-<p>​	此时可以引入<strong>Kruskal重构树</strong>。即用Kruskal的方法求最小生成树（下文称为MST）。每将一条边权为$w$的边连接的两个连通块合并的时候就新建一个节点，把两个连通块并查集祖先节点连向这个新的节点，并为其赋点权$w$.这棵树就是Kruskal重构树。性质：</p>
+<p>​    可以证明，一条最小瓶颈路的最小权值就是最小生成树上两点的距离。证明：反证法。考虑所有非树边，如果加入一条非树边后瓶颈边变小，那么用瓶颈边换掉最小生成树的边会得到更小的生成树，矛盾。</p>
+<p>​    此时可以引入<strong>Kruskal重构树</strong>。即用Kruskal的方法求最小生成树（下文称为MST）。每将一条边权为$w$的边连接的两个连通块合并的时候就新建一个节点，把两个连通块并查集祖先节点连向这个新的节点，并为其赋点权$w$.这棵树就是Kruskal重构树。性质：</p>
 <ol>
 <li>重构树是由$2n-1$个节点构成的二叉树，而且满足大根堆的性质，叶子为原图中的节点；</li>
 <li>原图中两点$u,v$路径中的$d(u,v)$就是$val(lca(u,v)).$</li>
 </ol>
-<p>​	因此，建好树后可以枚举LCA连接的两个连通块中满足要求的点对个数。我们枚举size小的那棵子树中的所有点$u$在另一棵子树中有多少个满足要求的$v$，等价于dfs序在另一棵子树的区间，且$c_v\ge c_u+L$或$c_v\le c_u-L$的点的个数。是二维数点问题。可以用离线BIT做，把询问拆成前缀和的形式离线存好。按$dfs$从小排序（表示时间，修改在询问之前），再将第二维单点修改$c_v$和询问$c_v+L,c_v-L$离散化。</p>
-<p>​	要注意$L=0$的情况，此时询问区间为$[-inf,inf]$而不是离散化之后的$[-inf,c_v-L]$加上$[c_v+L,inf]$，因为会多算一次。时间复杂度$O(m\log m+n\log^2 n)$，其中第一项为求最小生成树对边排序。启发式合并一共产生$O(n\log n)$次询问，对询问排序$O(n\log n\log(n\log n))\approx O(n\log^2n)$。</p>
-<h2 id="C-魔法少女">C  魔法少女</h2>
-<p>题意：给定一个$n\times m$的网格图，每个位置有一个传送门，传送门只有两种方向。求最少要改变多少个传送门的方向使得左上角和右下角连通。$n,m\le 500$.</p>
+<p>​    因此，建好树后可以枚举LCA连接的两个连通块中满足要求的点对个数。我们枚举size小的那棵子树中的所有点$u$在另一棵子树中有多少个满足要求的$v$，等价于dfs序在另一棵子树的区间，且$c_v\ge c_u+L$或$c_v\le c_u-L$的点的个数。是二维数点问题。可以用离线BIT做，把询问拆成前缀和的形式离线存好。按$dfs$从小排序（表示时间，修改在询问之前），再将第二维单点修改$c_v$和询问$c_v+L,c_v-L$离散化。</p>
+<p>​    要注意$L=0$的情况，此时询问区间为$[-inf,inf]$而不是离散化之后的$[-inf,c_v-L]$加上$[c_v+L,inf]$，因为会多算一次。时间复杂度$O(m\log m+n\log^2 n)$，其中第一项为求最小生成树对边排序。启发式合并一共产生$O(n\log n)$次询问，对询问排序$O(n\log n\log(n\log n))\approx O(n\log^2n)$。</p>
+<h2 id="C-魔法少女"><a href="#C-魔法少女" class="headerlink" title="C  魔法少女"></a>C  魔法少女</h2><p>题意：给定一个$n\times m$的网格图，每个位置有一个传送门，传送门只有两种方向。求最少要改变多少个传送门的方向使得左上角和右下角连通。$n,m\le 500$.</p>
 <p>Tag：最短路</p>
 <p>题解：</p>
-<p>​	建图方式：管道连接的两端连权值为0的边，其余两端连权值为1的边。跑最短路即可。如果$n,m$奇偶性相同最短路一定存在，否则可以提前判断无解。</p>
-<p>​	注意到边权只有0和1，可以把Dijkstra的优先队列换成双端队列。拓展到0时插到队列前面，否则插到队列后面，每次从队列前面pop。出队之后再标记vis数组防止遗漏。时间复杂度$O(nm)$.</p>
-<h2 id="D-顶点游走">D 顶点游走</h2>
-<p>题意：给定$n$个点$m$条边的有向图。开始时在1号节点，要走到$n$号节点。只有当过边的数量不小于$d_{c_i}$时才能走这条边，其中$c_i$为等级。问最少要走多少条边，或判断无法到达。$2\le n\le 180,1\le c\le50,0\le d_i\le d_{i+1}\le 10^9$.</p>
+<p>​    建图方式：管道连接的两端连权值为0的边，其余两端连权值为1的边。跑最短路即可。如果$n,m$奇偶性相同最短路一定存在，否则可以提前判断无解。</p>
+<p>​    注意到边权只有0和1，可以把Dijkstra的优先队列换成双端队列。拓展到0时插到队列前面，否则插到队列后面，每次从队列前面pop。出队之后再标记vis数组防止遗漏。时间复杂度$O(nm)$.</p>
+<h2 id="D-顶点游走"><a href="#D-顶点游走" class="headerlink" title="D 顶点游走"></a>D 顶点游走</h2><p>题意：给定$n$个点$m$条边的有向图。开始时在1号节点，要走到$n$号节点。只有当过边的数量不小于$d_{c_i}$时才能走这条边，其中$c_i$为等级。问最少要走多少条边，或判断无法到达。$2\le n\le 180,1\le c\le50,0\le d_i\le d_{i+1}\le 10^9$.</p>
 <p>Tag：Floyd、矩阵快速幂、bitset</p>
 <p>题解：</p>
-<p>​	用矩阵$f=[f_1,f_2,\cdots,f_n]$表示当前时刻是否能够到达$1,2,\cdots,n$号节点。初始时$f=[1,0,\cdots,0]$.每走一步，就令$f=f*F$。其中$F$为当前哪些边能走的邻接矩阵。但是$d$高达$10^9$，朴素转移的话无法通过。</p>
-<p>​	但是边的种类数只有50种，可以按边的种类划分不同的阶段。在一个阶段内的$F$是相同的。又注意到在一个阶段内，到达$n$最多走$n-1$步。令矩阵$G=F+I$，$I$为单位矩阵，表示一个点的可达状态可以继承。令$vis=f$（因为我们不能修改$f$，后面可能用到），然后用$vis=vis*G$。每乘一次判一下$vis[1][n]$是否为1。如果为1，u说明当前走的轮数是最少的，得到答案。否则在$n-1$次转移后都到不了，就用$F$转移$f$。$f = f * F^{d[x] - d[x - 1]}$,$x$为当前轮数。</p>
-<p>​	如果所有边都解锁了还是到不了，就输出-1。时间复杂度$O(n^3c\log d)$过不了，用bitset优化矩阵乘法后变为$O(\frac{n^3c\log d}{w})$.<s>相信Lutece即可。</s></p>
-<h2 id="E-修道路">E 修道路</h2>
-<p>题意：给定一个$n$个点$m$条边的无向连通图，每个点都有点权$w_i$。$q$次询问$p_1,p_2,\cdots,p_q$。询问从1号点到$p_i$号节点的简单路径上经过的点的点权最小值。$n\le 10^5,m\le2\times10^5,q\le10^6,w_i\le10^9$.</p>
+<p>​    用矩阵$f=[f_1,f_2,\cdots,f_n]$表示当前时刻是否能够到达$1,2,\cdots,n$号节点。初始时$f=[1,0,\cdots,0]$.每走一步，就令$f=f*F$。其中$F$为当前哪些边能走的邻接矩阵。但是$d$高达$10^9$，朴素转移的话无法通过。</p>
+<p>​    但是边的种类数只有50种，可以按边的种类划分不同的阶段。在一个阶段内的$F$是相同的。又注意到在一个阶段内，到达$n$最多走$n-1$步。令矩阵$G=F+I$，$I$为单位矩阵，表示一个点的可达状态可以继承。令$vis=f$（因为我们不能修改$f$，后面可能用到），然后用$vis=vis<em>G$。每乘一次判一下$vis[1][n]$是否为1。如果为1，u说明当前走的轮数是最少的，得到答案。否则在$n-1$次转移后都到不了，就用$F$转移$f$。$f = f </em> F^{d[x] - d[x - 1]}$,$x$为当前轮数。</p>
+<p>​    如果所有边都解锁了还是到不了，就输出-1。时间复杂度$O(n^3c\log d)$过不了，用bitset优化矩阵乘法后变为$O(\frac{n^3c\log d}{w})$.<del>相信Lutece即可。</del></p>
+<h2 id="E-修道路"><a href="#E-修道路" class="headerlink" title="E 修道路"></a>E 修道路</h2><p>题意：给定一个$n$个点$m$条边的无向连通图，每个点都有点权$w_i$。$q$次询问$p_1,p_2,\cdots,p_q$。询问从1号点到$p_i$号节点的简单路径上经过的点的点权最小值。$n\le 10^5,m\le2\times10^5,q\le10^6,w_i\le10^9$.</p>
 <p>Tag：Tarjan、圆方树</p>
 <p>题解：</p>
-<p>​	如果原图为树，直接dfs一遍即可。然后可以发现一条路径上经过的点只可能为经过点双上的点。每当我们进入一个点双，我们总有办法经过其中的点权最小的点并从计划的位置出来。想到tarjan建圆方树。对于一个点双，新建一个方点连接这个点双的所有点，方点点权赋值为所有连接的圆点的点权最小值。这样得到的树中，原图中非割点只连一个方点，割点连多个方点。树的大小为$O(n)$.</p>
-<p>​	在圆方树上dfs一遍即可。时间复杂度：$O(n+m)$.</p>
-<h2 id="F-开会了">F 开会了</h2>
-<p>题意：给$m$组形如$a_u-a_v\le w_i$的不等式，询问是否有解。$1\le n,m\le5\times10^3,|w|\le10^4$</p>
+<p>​    如果原图为树，直接dfs一遍即可。然后可以发现一条路径上经过的点只可能为经过点双上的点。每当我们进入一个点双，我们总有办法经过其中的点权最小的点并从计划的位置出来。想到tarjan建圆方树。对于一个点双，新建一个方点连接这个点双的所有点，方点点权赋值为所有连接的圆点的点权最小值。这样得到的树中，原图中非割点只连一个方点，割点连多个方点。树的大小为$O(n)$.</p>
+<p>​    在圆方树上dfs一遍即可。时间复杂度：$O(n+m)$.</p>
+<h2 id="F-开会了"><a href="#F-开会了" class="headerlink" title="F 开会了"></a>F 开会了</h2><p>题意：给$m$组形如$a_u-a_v\le w_i$的不等式，询问是否有解。$1\le n,m\le5\times10^3,|w|\le10^4$</p>
 <p>Tag：差分约束</p>
 <p>题解：</p>
-<p>​	最直观的想法是直接代入。如果刚好能消掉未知数肯定有解。但其他情况不太好讨论。转为图论模型。</p>
-<p>​	$a_u-a_v\le w_i$（等价于$a_u\le w_i+a_v$）对应着图中$v-&gt;u$的一条边权为$w_i$的有向边。这个形式很像最短路。又注意到如果$(a_1,a_2,\cdots,a_n)$如果是原不等式组的一组解，$(a_1+C,a_2+C,\cdots,a_n+C)$也是。故可以令$a_1=0$跑以1号点为起点的最短路。如果最短路存在解就存在（显然）。逆命题也成立。证明：如果不存在最短路，等价于有负环，那么从环上走一圈下来得到$0&lt;\sum_{负环} w&lt;0$,矛盾。</p>
-<p>​	因此只需判是否存在负环。用Bellman-Ford算法判。对于一个由$n$个点构成的图，如果一个点入队$n-1$次就说明有负环。为确保连通性，多加一个0号节点向1~n每个节点连权为0的有向边。入队次数若达到$n$就输出No.</p>
-<p>​	时间复杂度$O(nm)$.</p>
-<p>​</p>
-<h2 id="G-二分图匹配">G 二分图匹配</h2>
-<p>题意：给三组点$a_1,a_2,\cdots,a_n;b_1,b_2,\cdots,b_n;c_1,c_2,\cdots,c_n$.现在你要在$a,b$两组点中选出$n$对匹配得到一组新的点集$d_1,d_2,\cdots,d_n$.其中$d_i$为第$i$组匹配点的$a,b$之和。然后点集$d$将与点集$c$随机匹配，若$d_i&gt;c_i$，则获得$w_i$的得分。求得分期望的最大值乘以$n$的结果。$n\le400,a_i,b_i,c_i\le10^{18},w_i\le10000$.</p>
+<p>​    最直观的想法是直接代入。如果刚好能消掉未知数肯定有解。但其他情况不太好讨论。转为图论模型。</p>
+<p>​    $a_u-a_v\le w_i$（等价于$a_u\le w_i+a_v$）对应着图中$v-&gt;u$的一条边权为$w_i$的有向边。这个形式很像最短路。又注意到如果$(a_1,a_2,\cdots,a_n)$如果是原不等式组的一组解，$(a_1+C,a_2+C,\cdots,a_n+C)$也是。故可以令$a_1=0$跑以1号点为起点的最短路。如果最短路存在解就存在（显然）。逆命题也成立。证明：如果不存在最短路，等价于有负环，那么从环上走一圈下来得到$0&lt;\sum_{负环} w&lt;0$,矛盾。</p>
+<p>​    因此只需判是否存在负环。用Bellman-Ford算法判。对于一个由$n$个点构成的图，如果一个点入队$n-1$次就说明有负环。为确保连通性，多加一个0号节点向1~n每个节点连权为0的有向边。入队次数若达到$n$就输出No.</p>
+<p>​    时间复杂度$O(nm)$.</p>
+<p>​    </p>
+<h2 id="G-二分图匹配"><a href="#G-二分图匹配" class="headerlink" title="G 二分图匹配"></a>G 二分图匹配</h2><p>题意：给三组点$a_1,a_2,\cdots,a_n;b_1,b_2,\cdots,b_n;c_1,c_2,\cdots,c_n$.现在你要在$a,b$两组点中选出$n$对匹配得到一组新的点集$d_1,d_2,\cdots,d_n$.其中$d_i$为第$i$组匹配点的$a,b$之和。然后点集$d$将与点集$c$随机匹配，若$d_i&gt;c_i$，则获得$w_i$的得分。求得分期望的最大值乘以$n$的结果。$n\le400,a_i,b_i,c_i\le10^{18},w_i\le10000$.</p>
 <p>Tag：二分图带权匹配、KM</p>
 <p>题解：</p>
-<p>​	考虑已经有一组$d$如何计算期望。每个$d_i$都将等可能地与$c_1,c_2,\cdots,c_n$配对，若$d_i&gt;c_j$则获得$w_j$分。故$d_i$对期望的贡献为<br>
-$$<br>
-\sum_{1\le k\le n,c_k&lt;d_i}\frac{w_k}{n}<br>
-$$<br>
-而$d_i$又是由连接的$a,b$所决定，定义$w’(i,j)=\sum_\limits{k=1}^n[a_i+b_j&gt;c_k]\cdot w_k$，问题就等价于求以$w’$为权值的二分图最大权完美匹配。先介绍几个概念：</p>
+<p>​    考虑已经有一组$d$如何计算期望。每个$d_i$都将等可能地与$c_1,c_2,\cdots,c_n$配对，若$d_i&gt;c_j$则获得$w_j$分。故$d_i$对期望的贡献为</p>
+<script type="math/tex; mode=display">
+\sum_{1\le k\le n,c_k<d_i}\frac{w_k}{n}</script><p>而$d_i$又是由连接的$a,b$所决定，定义$w’(i,j)=\sum_\limits{k=1}^n[a_i+b_j&gt;c_k]\cdot w_k$，问题就等价于求以$w’$为权值的二分图最大权完美匹配。先介绍几个概念：</p>
 <ul>
 <li>顶标：二分图上每个点上的点权</li>
 <li>可行顶标：对二分图上所有边$w(u,v)\le l(u)+l(v)$都成立的一组顶标$l$。</li>
@@ -314,79 +305,66 @@ $$<br>
 </ul>
 <p>有以下定理：对于某组可行顶标，如果其相等子图存在完美匹配，那么，该匹配就是原二分图的最大权完美匹配。</p>
 <p>证明：考虑二分图任意一组完美匹配$M$的边权和为$val(M)=\sum_{(u,v)\in M}w(u,v)\le \sum_{(u,v)\in M}l(u)+l(v)\le\sum_{i}l(i)=val(M’)。M’$为最大权完美匹配。问题转化为找到一组可行顶标。KM算法的思想为贪心地调整顶标，使相等子图不断扩大至原图为止。下文会先讲解DFS版本的KM，分析DFS版的KM为什么会被卡，再介绍BFS版本的KM。</p>
-<p>​	记左部图为$X$，右部图为$Y$，左部图中点$i$的顶标为$lx(i)$，右部图为$ly(i)$。先随意但又不是那么随意地分配顶标：令$lx(i)=\max{w(i,j)},ly(i)=0.$</p>
-<p>​	然后从$X$中选一个未匹配点，像匈牙利一样求增广路，只有当$w(u,v)=lx(u)+ly(v)$时才认为这条边存在。若找到增广路就增广，否则，会得到交错树。记交错树的点在$X,Y$中的点集分别为$S,T.$记$S’=X-S,T’=Y-T.$有：</p>
+<p>​    记左部图为$X$，右部图为$Y$，左部图中点$i$的顶标为$lx(i)$，右部图为$ly(i)$。先随意但又不是那么随意地分配顶标：令$lx(i)=\max\{w(i,j)\},ly(i)=0.$</p>
+<p>​    然后从$X$中选一个未匹配点，像匈牙利一样求增广路，只有当$w(u,v)=lx(u)+ly(v)$时才认为这条边存在。若找到增广路就增广，否则，会得到交错树。记交错树的点在$X,Y$中的点集分别为$S,T.$记$S’=X-S,T’=Y-T.$有：</p>
 <ul>
-<li>
-<p>$S-T’$的边不存在，否则交错树会增长；</p>
+<li><p>$S-T’$的边不存在，否则交错树会增长；</p>
 </li>
-<li>
-<p>$S’-T$一定是非匹配边，否则边的点会属于$S$。</p>
+<li><p>$S’-T$一定是非匹配边，否则边的点会属于$S$。</p>
 </li>
 </ul>
-<p>​	考虑到上一次找不下去是因为顶标设置不合理导致的，具体的说是$S$中的顶标大了。故调整$S$中所有顶标$-d$,$T$中所有顶标$+d$，带来的影响有：</p>
+<p>​    考虑到上一次找不下去是因为顶标设置不合理导致的，具体的说是$S$中的顶标大了。故调整$S$中所有顶标$-d$,$T$中所有顶标$+d$，带来的影响有：</p>
 <ul>
-<li>
-<p>$S-T$的已有的边依然存在于相等子图中；</p>
+<li><p>$S-T$的已有的边依然存在于相等子图中；</p>
 </li>
-<li>
-<p>$S’-T$还是没有边；</p>
+<li><p>$S’-T$还是没有边；</p>
 </li>
-<li>
-<p>$S-T’$的$lx+ly$减少，可能扩大相等子图；</p>
+<li><p>$S-T’$的$lx+ly$减少，可能扩大相等子图；</p>
 </li>
-<li>
-<p>$S’-T$的$lx+ly$增加，不会扩大相等子图。</p>
-</li>
+<li>$S’-T$的$lx+ly$增加，不会扩大相等子图。</li>
 </ul>
-<p>​	要想拓展出一条$S-T’$的边，$d$就要取不小于$\min{lx(u)+ly(v)-w(u,v)|u\in S,v\in T’}$.根据贪心，应该取等。同时我们在$T$维护一个$slack$数组，$slack(v)=\min{lx(u)+ly(v)-w(u,v)|u\in S}$.当本轮匹配失败时，在所有的$slack$中取最小（还是贪心），改变$S,T$中顶标。</p>
-<p>​	DFS版本的问题在于每次调整完定标后又重新匹配，一次$dfs$是$O(n^2)$，扩大相等子图最多进行$O(n^2)$次，最坏情况为$O(n^4)$.我们可以维护一下上一次的状态。在每次扩大子图后，都记录新加入的边提供的新的増广方向，然后从此处继续寻找増广路即可。具体而言维护一个pre数组表示$Y$中匹配的前驱。左边最多进行$n$轮BFS，1轮BFS为$O(n^2)$，总复杂度$O(n^3)$.</p>
-<h2 id="H-守护最好的-0">H  守护最好的 0</h2>
-<p>题意：给一张简单无向连通图，点有点权$a_i$，一个连通块的贡献为$(-1)^{连通块大小}\times\sum_{i\in连通块}a_i$，可以任意删除原图中的一些边，求连通块贡献之和的最大值。多测。$2\le n\le10^6,n-1\le m\le 10^6,1\le a_i\le10^9,\sum_{T}n\le 10^6,\sum_{T}\le 2\times 10^6.$</p>
+<p>​    要想拓展出一条$S-T’$的边，$d$就要取不小于$\min\{lx(u)+ly(v)-w(u,v)|u\in S,v\in T’\}$.根据贪心，应该取等。同时我们在$T$维护一个$slack$数组，$slack(v)=\min\{lx(u)+ly(v)-w(u,v)|u\in S\}$.当本轮匹配失败时，在所有的$slack$中取最小（还是贪心），改变$S,T$中顶标。</p>
+<p>​    DFS版本的问题在于每次调整完定标后又重新匹配，一次$dfs$是$O(n^2)$，扩大相等子图最多进行$O(n^2)$次，最坏情况为$O(n^4)$.我们可以维护一下上一次的状态。在每次扩大子图后，都记录新加入的边提供的新的増广方向，然后从此处继续寻找増广路即可。具体而言维护一个pre数组表示$Y$中匹配的前驱。左边最多进行$n$轮BFS，1轮BFS为$O(n^2)$，总复杂度$O(n^3)$.</p>
+<h2 id="H-守护最好的-0"><a href="#H-守护最好的-0" class="headerlink" title="H  守护最好的 0"></a>H  守护最好的 0</h2><p>题意：给一张简单无向连通图，点有点权$a_i$，一个连通块的贡献为$(-1)^{连通块大小}\times\sum_{i\in连通块}a_i$，可以任意删除原图中的一些边，求连通块贡献之和的最大值。多测。$2\le n\le10^6,n-1\le m\le 10^6,1\le a_i\le10^9,\sum_{T}n\le 10^6,\sum_{T}\le 2\times 10^6.$</p>
 <p>Tag：tarjan、点双</p>
-<p>​	当$n$为偶数时不删点是最优的；当$n$为奇数时，有一个结论：最多删除一个点是最优的。</p>
-<p>​	如果删去的点是非割点，其余部分的连通性不变，答案为$\sum_\limits{i=1}^n a_i-\min{a_i|i不是割点}$；如果删去的点$u$是割点，那么会形成若干连通块。若$a_u\ge\min{a_i|i不是割点}$答案不会变优，故以下讨论$a_u&lt;\min{a_i|i不是割点}$。</p>
-<p>​	如果删去$u$形成的连通块存在奇数大小的块，奇数大小的块的个数至少为2。奇数大小的块中必定存在$v$使得$a_u&lt;\min{a_i|i不是割点}\le a_i(i不是割点)$，不会变优。只有当连通块大小都为偶数时才可能更优。</p>
-<p>​	于是跑一边tarjan，找割点，求$\min{a_i|i不是割点}$，第二遍tarjan的时候如果满足dfn[u]&lt;low[v]，说明找到了删掉$u$之后的一个以$v$为子树的连通块。最后根据连通块大小来决定是否用割点更新答案。</p>
-<p>​	证明：</p>
-<p>​	首先可以证明，答案一定是一些孤立点组成，即最后分成的若干连通块中没有点数大于等于3的奇数连通块。否则，可以在这些个奇数连通块上再割下一个非割点，使答案变大。而且只可能删奇数个割点。</p>
-<p>​	如果删超过一个点，因为一个割点在至少两个方向上有割点，但是孤立点必为叶子，不满足两个方向上都有割点。所以只可能删一个割点。</p>
-<p>​	有一发提交多测没清空割点iscut也过了，建议加强一下数据。</p>
+<p>​    当$n$为偶数时不删点是最优的；当$n$为奇数时，有一个结论：最多删除一个点是最优的。</p>
+<p>​    如果删去的点是非割点，其余部分的连通性不变，答案为$\sum_\limits{i=1}^n a_i-\min\{a_i|i不是割点\}$；如果删去的点$u$是割点，那么会形成若干连通块。若$a_u\ge\min\{a_i|i不是割点\}$答案不会变优，故以下讨论$a_u&lt;\min\{a_i|i不是割点\}$。</p>
+<p>​    如果删去$u$形成的连通块存在奇数大小的块，奇数大小的块的个数至少为2。奇数大小的块中必定存在$v$使得$a_u&lt;\min\{a_i|i不是割点\}\le a_i(i不是割点)$，不会变优。只有当连通块大小都为偶数时才可能更优。</p>
+<p>​    于是跑一边tarjan，找割点，求$\min\{a_i|i不是割点\}$，第二遍tarjan的时候如果满足dfn[u]&lt;low[v]，说明找到了删掉$u$之后的一个以$v$为子树的连通块。最后根据连通块大小来决定是否用割点更新答案。</p>
+<p>​    证明：</p>
+<p>​    首先可以证明，答案一定是一些孤立点组成，即最后分成的若干连通块中没有点数大于等于3的奇数连通块。否则，可以在这些个奇数连通块上再割下一个非割点，使答案变大。而且只可能删奇数个割点。</p>
+<p>​    如果删超过一个点，因为一个割点在至少两个方向上有割点，但是孤立点必为叶子，不满足两个方向上都有割点。所以只可能删一个割点。</p>
+<p>​    有一发提交多测没清空割点iscut也过了，建议加强一下数据。</p>
 <p>时间复杂度$O(n+m)$.</p>
-<h2 id="I又开会了">I	又开会了</h2>
-<p>题意：有$n$个取值只能为0或1的变量和$m$个形如$a_u=x\or a_v=y$的约束条件，问是否同时满足这些约束。$n,m\le10^5$.</p>
+<h2 id="I-又开会了"><a href="#I-又开会了" class="headerlink" title="I    又开会了"></a>I    又开会了</h2><p>题意：有$n$个取值只能为0或1的变量和$m$个形如$a_u=x\or a_v=y$的约束条件，问是否同时满足这些约束。$n,m\le10^5$.</p>
 <p>Tag：2-Sat</p>
-<p>​	<s>板子题，只要有tarjan强连通板子并正确建图即可</s></p>
-<p>​	可以把一个变量$i$拆成两个点$2<em>i,2</em>i+1$（也可以拆成$i,i+n$，看个人喜好），表示$a_i$取值0或1。对于一个形如题中给的约束条件，等效于$a_u=\neg x\Rightarrow a_v=y,a_v=\neg y\Rightarrow a_u=x$。我们在拆点后的图中连两条边表示这种推出关系。最后跑一边tarjan判断$2<em>i$与$2</em>i+1$是否在同一个强联通分量中，如果在则出现矛盾，否则可以拓扑排序逆序选点构造一组解~~（但是Lutece没有spj）~~。</p>
-<h2 id="J-tarjan">J tarjan</h2>
-<p>题意：给你一个$n$个点，$m$条边的无向图简单图。求割点数量，割边数量，极大点双连通分量数量，极大点双连通分量包含边数的最大值。</p>
+<p>​    <del>板子题，只要有tarjan强连通板子并正确建图即可</del></p>
+<p>​    可以把一个变量$i$拆成两个点$2<em>i,2</em>i+1$（也可以拆成$i,i+n$，看个人喜好），表示$a_i$取值0或1。对于一个形如题中给的约束条件，等效于$a_u=\neg x\Rightarrow a_v=y,a_v=\neg y\Rightarrow a_u=x$。我们在拆点后的图中连两条边表示这种推出关系。最后跑一边tarjan判断$2<em>i$与$2</em>i+1$是否在同一个强联通分量中，如果在则出现矛盾，否则可以拓扑排序逆序选点构造一组解<del>（但是Lutece没有spj）</del>。</p>
+<h2 id="J-tarjan"><a href="#J-tarjan" class="headerlink" title="J tarjan"></a>J tarjan</h2><p>题意：给你一个$n$个点，$m$条边的无向图简单图。求割点数量，割边数量，极大点双连通分量数量，极大点双连通分量包含边数的最大值。</p>
 <p>Tag：tarjan板子</p>
-<p>​	定义dfn[u]为搜索树访问到u的时间戳，low[u]为最早追溯值，定义为以下节点dfn的最小值：</p>
+<p>​    定义dfn[u]为搜索树访问到u的时间戳，low[u]为最早追溯值，定义为以下节点dfn的最小值：</p>
 <p>1.子树中的点；2.子树中的点通过一条不在搜索树上的边能够到达的节点。</p>
 <p>更新low的方法：子树取min(low[u],low[v])，非树边取min(low[u],dfn[v])。注意不要取到父亲。</p>
 <p>割边判定法则：边(u,v)是割边当且仅当dfn[u]&lt;low[v]。</p>
 <p>割点判定法则：点u是割点当且仅当：u不是根且v是u子树中一点且dfn[u] &lt;= low[v]；或u是根且存在两个v满足dfn[u] &lt;= low[v]。</p>
-<p>​	求出一个割点就对应一个极大点双，我们可以维护一个栈，当用v判断到u是割点时把v之前的点出栈，这些点构成一个点双。</p>
-<p>​	但是要求点双中的边怎么办呢？一种方法是可以把点栈改为边栈（开集训之前交过集训里面忘交这个版本的了），出栈出到栈顶的边连接的两端其一为$u,v$就停止。另一种方法是仍然用点栈，记录每个点属于哪个点双。当然割点是可以属于多个点双的，所以每得到一个点双我们就及时dfs子树一次，找其中的满足两个端点都属于当前点双计数器的边。</p>
-<h2 id="K-居民们都住在房屋里">K 居民们都住在房屋里</h2>
-<p>题意：给一棵树，边权为1，多次询问两点间的路径长度。</p>
+<p>​    求出一个割点就对应一个极大点双，我们可以维护一个栈，当用v判断到u是割点时把v之前的点出栈，这些点构成一个点双。</p>
+<p>​    但是要求点双中的边怎么办呢？一种方法是可以把点栈改为边栈（开集训之前交过集训里面忘交这个版本的了），出栈出到栈顶的边连接的两端其一为$u,v$就停止。另一种方法是仍然用点栈，记录每个点属于哪个点双。当然割点是可以属于多个点双的，所以每得到一个点双我们就及时dfs子树一次，找其中的满足两个端点都属于当前点双计数器的边。</p>
+<h2 id="K-居民们都住在房屋里"><a href="#K-居民们都住在房屋里" class="headerlink" title="K 居民们都住在房屋里"></a>K 居民们都住在房屋里</h2><p>题意：给一棵树，边权为1，多次询问两点间的路径长度。</p>
 <p>Tag：最近公共祖先</p>
-<p>​	$u,v$两点之间的答案为$dep(u)+dep(v)-2*dep(lca(u,v))$.求LCA最常用的两种方法是倍增和树链剖分。倍增法预处理出每个节点的$2^i$级祖先和深度$dep$，然后通过二进制划分把深度大的往上跳至同一深度，在通过二进制划分跳。如果跳了之后两节点不同就跳，否则缩小步长。最后再跳一次。</p>
-<p>​	树链剖分通过对树上轻重链的划分，维护出每个节点的链顶top，深度dep。剖法具体不再赘述。求LCA时将top深度大的节点u跳到fa[top[u]]，直到两者在同一条链上，此时两节点中深度小的为答案。两者单次询问复杂度都为$O(\log n)$，但一般来说树剖的常数小一些。</p>
-<h2 id="L-最小生成树">L 最小生成树</h2>
-<p>题意：无向图最小生成树计数。$1\le n\le100,1\le m\le1000,1\le w\le10$.</p>
+<p>​    $u,v$两点之间的答案为$dep(u)+dep(v)-2*dep(lca(u,v))$.求LCA最常用的两种方法是倍增和树链剖分。倍增法预处理出每个节点的$2^i$级祖先和深度$dep$，然后通过二进制划分把深度大的往上跳至同一深度，在通过二进制划分跳。如果跳了之后两节点不同就跳，否则缩小步长。最后再跳一次。</p>
+<p>​    树链剖分通过对树上轻重链的划分，维护出每个节点的链顶top，深度dep。剖法具体不再赘述。求LCA时将top深度大的节点u跳到fa[top[u]]，直到两者在同一条链上，此时两节点中深度小的为答案。两者单次询问复杂度都为$O(\log n)$，但一般来说树剖的常数小一些。</p>
+<h2 id="L-最小生成树"><a href="#L-最小生成树" class="headerlink" title="L 最小生成树"></a>L 最小生成树</h2><p>题意：无向图最小生成树计数。$1\le n\le100,1\le m\le1000,1\le w\le10$.</p>
 <p>Tag：矩阵树定理</p>
-<p>​	首先要知道矩阵树定理可以求生成树个数。如果有一条无向边$(u,v)$度数矩阵$D[u][u]++,D[v][v]++$，邻接矩阵$A[u][v]++,A[v][u]++$.基尔霍夫矩阵$K=D-A$.$K$的主对角线任意一个元素的代数余子式就是生成树的个数。</p>
-<p>​	按照Kruskal求最小生成树的过程，可以发现所有最小生成树中所有边边权构成的集合是一样的。换句话说，在原图中选相同边权的边的顺序和方式不同，对于最终的最小生成树来说，连通性不会变。因此可以按边权分阶段计数。</p>
+<p>​    首先要知道矩阵树定理可以求生成树个数。如果有一条无向边$(u,v)$度数矩阵$D[u][u]++,D[v][v]++$，邻接矩阵$A[u][v]++,A[v][u]++$.基尔霍夫矩阵$K=D-A$.$K$的主对角线任意一个元素的代数余子式就是生成树的个数。</p>
+<p>​    按照Kruskal求最小生成树的过程，可以发现所有最小生成树中所有边边权构成的集合是一样的。换句话说，在原图中选相同边权的边的顺序和方式不同，对于最终的最小生成树来说，连通性不会变。因此可以按边权分阶段计数。</p>
 <p>对于某一种边权，如果它在最小生成树(MST)中不存在则跳过，否则把当前该边权的的边在MST中都断掉（重新建图），此时有若干连通块。将其缩点（用并查集）。在把原图中所有该边权的边加入缩点后的图跑矩阵树定理，最后把答案相乘。求行列式时用辗转相除，注意模数。</p>
 <p>复杂度$O(m\log m+n^3w)$</p>
-<h2 id="M-刺杀卷卷国王">M  刺杀卷卷国王</h2>
-<p>题意：求从起点$1$到$n$的非严格大$k$短路长度，可以重复走边和点。$n\le5000,m\le 200000,k\le500000,w\le 1000$.</p>
+<h2 id="M-刺杀卷卷国王"><a href="#M-刺杀卷卷国王" class="headerlink" title="M  刺杀卷卷国王"></a>M  刺杀卷卷国王</h2><p>题意：求从起点$1$到$n$的非严格大$k$短路长度，可以重复走边和点。$n\le5000,m\le 200000,k\le500000,w\le 1000$.</p>
 <p>Tag：可持久化可并堆</p>
-<p>​	查阅资料可以知道，有环的情况下A*会被卡到$O(kn)$，不能用。</p>
-<p>​	可以按顺序求次短路，3短路，4短路，……，$k$短路。考虑最短路和次短路的关系：我们将原图的边反向之后建以$n$为根的最短路树（最短路可能不唯一，但是一定要确定一棵最短路树），从$1$到$n$的路径上可以有树边和非树边。多走的路来自于非树边。走一条非树边$e=&lt;u,v&gt;$的增量$\Delta e=dis(u)-dis(v)+w(u,v).$一条路径上所有非树边增量之和与路径长度的对应关系为$dis(1)+\sum\Delta e=$路径长度，且对应关系是唯一的。所以问题等价于找第$k$小的非树边序列之和。</p>
-<p>​	这个序列要满足：相邻两条边后一条边起点是前一条边的终点的祖先（最短路树中）。</p>
-<p>​	考虑如何从小到大生成这样的边序列$S$。开始时序列为空（即最短路）。有两种方式得到新的序列：</p>
+<p>​    查阅资料可以知道，有环的情况下A*会被卡到$O(kn)$，不能用。</p>
+<p>​    可以按顺序求次短路，3短路，4短路，……，$k$短路。考虑最短路和次短路的关系：我们将原图的边反向之后建以$n$为根的最短路树（最短路可能不唯一，但是一定要确定一棵最短路树），从$1$到$n$的路径上可以有树边和非树边。多走的路来自于非树边。走一条非树边$e=<u,v>$的增量$\Delta e=dis(u)-dis(v)+w(u,v).$一条路径上所有非树边增量之和与路径长度的对应关系为$dis(1)+\sum\Delta e=$路径长度，且对应关系是唯一的。所以问题等价于找第$k$小的非树边序列之和。</p>
+<p>​    这个序列要满足：相邻两条边后一条边起点是前一条边的终点的祖先（最短路树中）。</p>
+<p>​    考虑如何从小到大生成这样的边序列$S$。开始时序列为空（即最短路）。有两种方式得到新的序列：</p>
 <ol>
 <li>替换$S$中最后一条边为$\Delta e$刚好更大的边；</li>
 <li>在$S$中加入一条新边，新边需满足起点是原序列$S$末尾的边的终点的祖先。</li>
@@ -397,59 +375,48 @@ $$<br>
 <li>在$S$中加入一条新边，接上新边起点对应的堆顶节点对应的边。</li>
 </ol>
 <p>瓶颈在于操作二，需合并一个点所有祖先的堆。暴力合并复杂度$O(nm)$。需要部分可持久化（只支持查询历史版本，但不支持修改），即可持久化左偏树。</p>
-<p>​	左偏树的左偏性质可以保证单词合并复杂度为$O(\log n)$，可持久化左偏树即每次合并时新建一个节点（类似主席树吧），然后对原图每个节点维护一个rt，表示其在左偏树中根的位置。</p>
-<p>​	先把所有非树边丢进各自节点的堆中，再沿着最短路树合并堆。全局再维护一个优先队列，类型为pair&lt;long long,int&gt;。第一维是k短路长度，第二维是边的终点。取出$k-1$次即可。</p>
-<p>​	复杂度：$O((n+m)\log m+k\log k)$.最短路$O(m\log m)$，合并堆$O(n\log m)$，全局优先队列$O(k\log k)$.</p>
-<h2 id="N-摆摆国的道路修复">N 摆摆国的道路修复</h2>
-<p>题意：最小直径生成树。$n\le 500,n-1\le m\le \frac{n(n-1)}{2},1\le val\le10^9$.</p>
+<p>​    左偏树的左偏性质可以保证单词合并复杂度为$O(\log n)$，可持久化左偏树即每次合并时新建一个节点（类似主席树吧），然后对原图每个节点维护一个rt，表示其在左偏树中根的位置。</p>
+<p>​    先把所有非树边丢进各自节点的堆中，再沿着最短路树合并堆。全局再维护一个优先队列，类型为pair<long long,int>。第一维是k短路长度，第二维是边的终点。取出$k-1$次即可。</p>
+<p>​    复杂度：$O((n+m)\log m+k\log k)$.最短路$O(m\log m)$，合并堆$O(n\log m)$，全局优先队列$O(k\log k)$.</p>
+<h2 id="N-摆摆国的道路修复"><a href="#N-摆摆国的道路修复" class="headerlink" title="N 摆摆国的道路修复"></a>N 摆摆国的道路修复</h2><p>题意：最小直径生成树。$n\le 500,n-1\le m\le \frac{n(n-1)}{2},1\le val\le10^9$.</p>
 <p>Tag：最小直径生成树。</p>
-<p>​	定义图的绝对中心为图中的一个点，到图中最远的节点的距离最小。显然至少有两个点到绝对中心距离最远。</p>
-<p>​	假设绝对中心$c$在某条边权为$w$的边$(u,v)$上，且$d(u,c)=x(0\le x\le w)$.则图中任意一点到绝对中心的距离$d(i,c)=\min(d(u,i)+x,d(v,i)+w-x).$可以画出$x$改变对应$d(i,c)$的图像，为折线。$x=0$时，$d(i,c)=d(u,i)$；$x=w$时$d(i,c)=d(v,i)$。对于图中所有节点，最远距离的函数就是这些折线取max。要使最远距离最小就是要找最小的$y$坐标。</p>
-<p>​	有两种可能：1.绝对中心在点上。枚举所有点作为绝对中心，可得固定起点到其他点的距离最大值$rk[n]$（预处理出），用$ans\leftarrow min(ans,2*rk[n])$更新。2.绝对中心在某条边上。枚举所有边。找折线图纵坐标最小的交点。设当前边为$w(u,v)$。若$d(u,i)\le d(u,i’)$且$d(v,i)\le d(v,i’)$就说明$i’$这个节点的折线完全比$i$矮，没用。所以所有折线按左端点从大到小排序，只有当右端点跨过之前的最大值$d(v,mapos)$时才可能更新答案。解如下方程得到交点$(x,y)$：<br>
-$$<br>
-dis(u,now)+x=-x+w+d(v,mapos)\Rightarrow x=\frac{w+d(v,mapos)-dis(u,now)}{2}<br>
-$$</p>
-<p>$$<br>
-\Rightarrow y=\frac{w+d(v,mapos)+dis(u,now)}{2}.d=2y=w+d(v,mapos)+dis(u,now)<br>
-$$</p>
-<p>取min更新答案。</p>
+<p>​    定义图的绝对中心为图中的一个点，到图中最远的节点的距离最小。显然至少有两个点到绝对中心距离最远。</p>
+<p>​    假设绝对中心$c$在某条边权为$w$的边$(u,v)$上，且$d(u,c)=x(0\le x\le w)$.则图中任意一点到绝对中心的距离$d(i,c)=\min(d(u,i)+x,d(v,i)+w-x).$可以画出$x$改变对应$d(i,c)$的图像，为折线。$x=0$时，$d(i,c)=d(u,i)$；$x=w$时$d(i,c)=d(v,i)$。对于图中所有节点，最远距离的函数就是这些折线取max。要使最远距离最小就是要找最小的$y$坐标。</p>
+<p>​    有两种可能：1.绝对中心在点上。枚举所有点作为绝对中心，可得固定起点到其他点的距离最大值$rk[n]$（预处理出），用$ans\leftarrow min(ans,2*rk[n])$更新。2.绝对中心在某条边上。枚举所有边。找折线图纵坐标最小的交点。设当前边为$w(u,v)$。若$d(u,i)\le d(u,i’)$且$d(v,i)\le d(v,i’)$就说明$i’$这个节点的折线完全比$i$矮，没用。所以所有折线按左端点从大到小排序，只有当右端点跨过之前的最大值$d(v,mapos)$时才可能更新答案。解如下方程得到交点$(x,y)$：</p>
+<script type="math/tex; mode=display">
+dis(u,now)+x=-x+w+d(v,mapos)\Rightarrow x=\frac{w+d(v,mapos)-dis(u,now)}{2}</script><script type="math/tex; mode=display">
+\Rightarrow y=\frac{w+d(v,mapos)+dis(u,now)}{2}.d=2y=w+d(v,mapos)+dis(u,now)</script><p>取min更新答案。</p>
 <p>$d$数组和$rk$数组可以Floyd预处理出来。时间复杂度：$O(n^3+n^2\log n+n+mn)=O(n^3+mn).$</p>
-<h2 id="O-纯白色的少年郎，如今只身在何方">O  纯白色的少年郎，如今只身在何方</h2>
-<p>题意：一张有向图（边权非负），求单源最短距离。$n\le 10^5,m\le 2\times 10^5,0\le w\le 10^9$。</p>
+<h2 id="O-纯白色的少年郎，如今只身在何方"><a href="#O-纯白色的少年郎，如今只身在何方" class="headerlink" title="O  纯白色的少年郎，如今只身在何方"></a>O  纯白色的少年郎，如今只身在何方</h2><p>题意：一张有向图（边权非负），求单源最短距离。$n\le 10^5,m\le 2\times 10^5,0\le w\le 10^9$。</p>
 <p>Tag：Dijkstra</p>
-<p>最方便的写法就是用优先队列维护pair&lt;ll,int&gt;了吧，然后重载一下优先队列。初始化距离表为很大的数，再把起点距离值设为0。每次取优先队列中距离最小的点出来更新别人。能更新最小距离的就push。注意开long long。复杂度$O(m\log m)$.</p>
-<h2 id="P-哈密顿回路">P 哈密顿回路</h2>
-<p>题意：给$n\times m$的网格图，其中有一些特殊方块，方格之间边有边权。求从左上角出发形成的回路把所有特殊方格包含进回路的最小代价。$1\le n,m\le400,w_i\le 10^9$.</p>
+<p>最方便的写法就是用优先队列维护pair<ll,int>了吧，然后重载一下优先队列。初始化距离表为很大的数，再把起点距离值设为0。每次取优先队列中距离最小的点出来更新别人。能更新最小距离的就push。注意开long long。复杂度$O(m\log m)$.</p>
+<h2 id="P-哈密顿回路"><a href="#P-哈密顿回路" class="headerlink" title="P 哈密顿回路"></a>P 哈密顿回路</h2><p>题意：给$n\times m$的网格图，其中有一些特殊方块，方格之间边有边权。求从左上角出发形成的回路把所有特殊方格包含进回路的最小代价。$1\le n,m\le400,w_i\le 10^9$.</p>
 <p>Tag：最短路</p>
-<p>​	有一个性质，被包围的区域一定包含了从左上角到各个特殊点左上角的最短路。证明：若不然，可以扩大包围区域不使答案更劣。所以回路不能切断这些最短路。</p>
-<p>​	拆点。除了左上角，每个角点拆成左上，左下，右上，右下四个点。如果有最短路将两点隔开就不连，如果点在特殊点内部也不连（你必须把它围住），否则拆好的点之间连边权为0的边。具体方式为先在原图中对特殊点建最短路树，给每条边打标记代表能不能跨过，特殊方格对应的拆点后的四个点直接ban。然后按原图的边连，最后在把边界连接好。</p>
-<p>​	最后跑从0号点（原图左上角）的右上到左下的最短路就行。</p>
+<p>​    有一个性质，被包围的区域一定包含了从左上角到各个特殊点左上角的最短路。证明：若不然，可以扩大包围区域不使答案更劣。所以回路不能切断这些最短路。</p>
+<p>​    拆点。除了左上角，每个角点拆成左上，左下，右上，右下四个点。如果有最短路将两点隔开就不连，如果点在特殊点内部也不连（你必须把它围住），否则拆好的点之间连边权为0的边。具体方式为先在原图中对特殊点建最短路树，给每条边打标记代表能不能跨过，特殊方格对应的拆点后的四个点直接ban。然后按原图的边连，最后在把边界连接好。</p>
+<p>​    最后跑从0号点（原图左上角）的右上到左下的最短路就行。</p>
 <p>复杂度$O(nm\log(nm))$</p>
-<h2 id="Q-建设道路">Q  建设道路</h2>
-<p>给一张$n$个点构成的无向完全图和参数$D,A_1,A_2,\cdots,A_n$，$i,j$之间的边权为$|i-j|\times D+A_i+A_j$，求最小生成树。$n\le 10^5,1\le D,A_i\le 10^9$.</p>
+<h2 id="Q-建设道路"><a href="#Q-建设道路" class="headerlink" title="Q  建设道路"></a>Q  建设道路</h2><p>给一张$n$个点构成的无向完全图和参数$D,A_1,A_2,\cdots,A_n$，$i,j$之间的边权为$|i-j|\times D+A_i+A_j$，求最小生成树。$n\le 10^5,1\le D,A_i\le 10^9$.</p>
 <p>Tag：点分治</p>
 <p>显然边数是$O(n^2)$的，暴力做不了。可以考虑哪些边是一定不会连的。</p>
 <p>假设当前有两个集合$L,R$，$L$在$R$的左边。我们在$L,R$之间连边，可以去掉绝对值。令左半部分$B_i=A_i-i<em>D$，右半部分$B_j=A_j+j</em>D$。选择$L$中$B_i$最小的向$R$所有点连边，$R$中同理。$L,R$之间的其余边都不可能成为答案。假设包含了边$CD$，且$C,D$都不等于各自集合中的最小值$A,B$考虑回路$C-B-A-D-C$,$CD$一定会严格大于这个回路的其他边，因此会被替代。</p>
 <p>复杂度$O(n\log^2n)$。分治$\log n$层，一层为$O(n\log n)$。</p>
-<h2 id="R-建设道路2">R 建设道路2</h2>
-<p>题意：最小树形图（指定根的有向最小生成树）。$n\le100,m\le 1000,w\le10^6$.</p>
+<h2 id="R-建设道路2"><a href="#R-建设道路2" class="headerlink" title="R 建设道路2"></a>R 建设道路2</h2><p>题意：最小树形图（指定根的有向最小生成树）。$n\le100,m\le 1000,w\le10^6$.</p>
 <p>Tag：最小树形图、朱刘算法</p>
-<p>​	朱刘算法过程如下：</p>
+<p>​    朱刘算法过程如下：</p>
 <ol>
 <li>对每个点，选择其边权最小的入边；</li>
 <li>判断是否有环。如果没环，就等价于形成了最小树形图，结束；否则要缩环为一个点，改变边权后返回1。</li>
 </ol>
-<p>​	考虑缩环带来的影响：环的出边不会被影响，环的入边需要减去原有入边的权值，因为换掉这条入边之后可以从环中到达环内所有点。</p>
+<p>​    考虑缩环带来的影响：环的出边不会被影响，环的入边需要减去原有入边的权值，因为换掉这条入边之后可以从环中到达环内所有点。</p>
 <p>复杂度：最多进行$O(n)$次缩环，缩环后要$O(m)$更新最小入边，故总复杂度$O(nm)$.</p>
-<h2 id="S-合作共赢">S 合作共赢</h2>
-<p>题意：一般图最大匹配。$n\le500,m\le124750$.</p>
+<h2 id="S-合作共赢"><a href="#S-合作共赢" class="headerlink" title="S 合作共赢"></a>S 合作共赢</h2><p>题意：一般图最大匹配。$n\le500,m\le124750$.</p>
 <p>Tag：带花树</p>
 <p>一般图和二分图最大的区别在于奇环。带花树的核心还是找增广路，可以说带花树=匈牙利BFS版本+处理奇环。</p>
 <p>先考虑最简单的情况及不存在环套环，可以发现奇环内至少有一个点无法匹配。我们将点交叉黑白染色，开始染色的为黑点。如果是未匹配点就路径取反增广；如果是匹配点或在同一个环中就跳过；否则遇到奇环，即黑点x碰到黑点y。此时要缩花，找到用pre和match共同作用下找到花根LCA，用把x,y连起来，再用pre和match把pre反向改回去，同时修改并查集使它们在一起。</p>
-<h2 id="T-我彻底理解了V圈！">T  我彻底理解了V圈！</h2>
-<p>题意：求DAG的最小路径覆盖。$n\le200,m\le 6000$.</p>
+<h2 id="T-我彻底理解了V圈！"><a href="#T-我彻底理解了V圈！" class="headerlink" title="T  我彻底理解了V圈！"></a>T  我彻底理解了V圈！</h2><p>题意：求DAG的最小路径覆盖。$n\le200,m\le 6000$.</p>
 <p>Tag：二分图最大匹配</p>
-<p>先说结论，答案为$n-$二分图最大匹配。由于每个点至多有一条出边和一条入边，可以按出入点建二分图。对于原图中一条有向边$&lt;u,v&gt;$，连两条边：$&lt;u,v+n&gt;,&lt;u+n,v&gt;$。最后把小于等于n的连原点，大于n的连汇点跑最大流即可。</p>
+<p>先说结论，答案为$n-$二分图最大匹配。由于每个点至多有一条出边和一条入边，可以按出入点建二分图。对于原图中一条有向边$<u,v>$，连两条边：$<u,v+n>,<u+n,v>$。最后把小于等于n的连原点，大于n的连汇点跑最大流即可。</p>
 <p>结论的证明：因为最小路径覆盖的边在拆点后的二分图中构成一组匹配。”路径条数最少”等价于二分图左端非匹配点最少，也等价于匹配数最多。</p>
 
     </div>
@@ -531,7 +498,7 @@ $$</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-%E8%9C%98%E8%9B%9B%E7%9A%84%E7%BD%91"><span class="nav-number">1.</span> <span class="nav-text">A  蜘蛛的网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-%E5%9C%9F%E8%B1%86%E7%9A%84%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">B 土豆的图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3"><span class="nav-number">3.</span> <span class="nav-text">C  魔法少女</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D-%E9%A1%B6%E7%82%B9%E6%B8%B8%E8%B5%B0"><span class="nav-number">4.</span> <span class="nav-text">D 顶点游走</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#E-%E4%BF%AE%E9%81%93%E8%B7%AF"><span class="nav-number">5.</span> <span class="nav-text">E 修道路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#F-%E5%BC%80%E4%BC%9A%E4%BA%86"><span class="nav-number">6.</span> <span class="nav-text">F 开会了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G-%E4%BA%8C%E5%88%86%E5%9B%BE%E5%8C%B9%E9%85%8D"><span class="nav-number">7.</span> <span class="nav-text">G 二分图匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#H-%E5%AE%88%E6%8A%A4%E6%9C%80%E5%A5%BD%E7%9A%84-0"><span class="nav-number">8.</span> <span class="nav-text">H  守护最好的 0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I%E5%8F%88%E5%BC%80%E4%BC%9A%E4%BA%86"><span class="nav-number">9.</span> <span class="nav-text">I	又开会了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#J-tarjan"><span class="nav-number">10.</span> <span class="nav-text">J tarjan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-%E5%B1%85%E6%B0%91%E4%BB%AC%E9%83%BD%E4%BD%8F%E5%9C%A8%E6%88%BF%E5%B1%8B%E9%87%8C"><span class="nav-number">11.</span> <span class="nav-text">K 居民们都住在房屋里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">12.</span> <span class="nav-text">L 最小生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#M-%E5%88%BA%E6%9D%80%E5%8D%B7%E5%8D%B7%E5%9B%BD%E7%8E%8B"><span class="nav-number">13.</span> <span class="nav-text">M  刺杀卷卷国王</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-%E6%91%86%E6%91%86%E5%9B%BD%E7%9A%84%E9%81%93%E8%B7%AF%E4%BF%AE%E5%A4%8D"><span class="nav-number">14.</span> <span class="nav-text">N 摆摆国的道路修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#O-%E7%BA%AF%E7%99%BD%E8%89%B2%E7%9A%84%E5%B0%91%E5%B9%B4%E9%83%8E%EF%BC%8C%E5%A6%82%E4%BB%8A%E5%8F%AA%E8%BA%AB%E5%9C%A8%E4%BD%95%E6%96%B9"><span class="nav-number">15.</span> <span class="nav-text">O  纯白色的少年郎，如今只身在何方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#P-%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%9E%E8%B7%AF"><span class="nav-number">16.</span> <span class="nav-text">P 哈密顿回路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-%E5%BB%BA%E8%AE%BE%E9%81%93%E8%B7%AF"><span class="nav-number">17.</span> <span class="nav-text">Q  建设道路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-%E5%BB%BA%E8%AE%BE%E9%81%93%E8%B7%AF2"><span class="nav-number">18.</span> <span class="nav-text">R 建设道路2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#S-%E5%90%88%E4%BD%9C%E5%85%B1%E8%B5%A2"><span class="nav-number">19.</span> <span class="nav-text">S 合作共赢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#T-%E6%88%91%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3%E4%BA%86V%E5%9C%88%EF%BC%81"><span class="nav-number">20.</span> <span class="nav-text">T  我彻底理解了V圈！</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-%E8%9C%98%E8%9B%9B%E7%9A%84%E7%BD%91"><span class="nav-number">1.</span> <span class="nav-text">A  蜘蛛的网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-%E5%9C%9F%E8%B1%86%E7%9A%84%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">B 土豆的图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3"><span class="nav-number">3.</span> <span class="nav-text">C  魔法少女</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D-%E9%A1%B6%E7%82%B9%E6%B8%B8%E8%B5%B0"><span class="nav-number">4.</span> <span class="nav-text">D 顶点游走</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#E-%E4%BF%AE%E9%81%93%E8%B7%AF"><span class="nav-number">5.</span> <span class="nav-text">E 修道路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#F-%E5%BC%80%E4%BC%9A%E4%BA%86"><span class="nav-number">6.</span> <span class="nav-text">F 开会了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G-%E4%BA%8C%E5%88%86%E5%9B%BE%E5%8C%B9%E9%85%8D"><span class="nav-number">7.</span> <span class="nav-text">G 二分图匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#H-%E5%AE%88%E6%8A%A4%E6%9C%80%E5%A5%BD%E7%9A%84-0"><span class="nav-number">8.</span> <span class="nav-text">H  守护最好的 0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-%E5%8F%88%E5%BC%80%E4%BC%9A%E4%BA%86"><span class="nav-number">9.</span> <span class="nav-text">I    又开会了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#J-tarjan"><span class="nav-number">10.</span> <span class="nav-text">J tarjan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-%E5%B1%85%E6%B0%91%E4%BB%AC%E9%83%BD%E4%BD%8F%E5%9C%A8%E6%88%BF%E5%B1%8B%E9%87%8C"><span class="nav-number">11.</span> <span class="nav-text">K 居民们都住在房屋里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">12.</span> <span class="nav-text">L 最小生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#M-%E5%88%BA%E6%9D%80%E5%8D%B7%E5%8D%B7%E5%9B%BD%E7%8E%8B"><span class="nav-number">13.</span> <span class="nav-text">M  刺杀卷卷国王</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-%E6%91%86%E6%91%86%E5%9B%BD%E7%9A%84%E9%81%93%E8%B7%AF%E4%BF%AE%E5%A4%8D"><span class="nav-number">14.</span> <span class="nav-text">N 摆摆国的道路修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#O-%E7%BA%AF%E7%99%BD%E8%89%B2%E7%9A%84%E5%B0%91%E5%B9%B4%E9%83%8E%EF%BC%8C%E5%A6%82%E4%BB%8A%E5%8F%AA%E8%BA%AB%E5%9C%A8%E4%BD%95%E6%96%B9"><span class="nav-number">15.</span> <span class="nav-text">O  纯白色的少年郎，如今只身在何方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#P-%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%9E%E8%B7%AF"><span class="nav-number">16.</span> <span class="nav-text">P 哈密顿回路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-%E5%BB%BA%E8%AE%BE%E9%81%93%E8%B7%AF"><span class="nav-number">17.</span> <span class="nav-text">Q  建设道路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-%E5%BB%BA%E8%AE%BE%E9%81%93%E8%B7%AF2"><span class="nav-number">18.</span> <span class="nav-text">R 建设道路2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#S-%E5%90%88%E4%BD%9C%E5%85%B1%E8%B5%A2"><span class="nav-number">19.</span> <span class="nav-text">S 合作共赢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#T-%E6%88%91%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3%E4%BA%86V%E5%9C%88%EF%BC%81"><span class="nav-number">20.</span> <span class="nav-text">T  我彻底理解了V圈！</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
