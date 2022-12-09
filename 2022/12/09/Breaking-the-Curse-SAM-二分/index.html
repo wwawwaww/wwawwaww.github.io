@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="题目链接 题意：给定两字符串$S,T$，$q$次查询，每次询问一个$[l,r]$，求$s[l…r]$中有多少$T$的子串。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Breaking the Curse(SAM+二分)">
+<meta property="og:url" content="http://example.com/2022/12/09/Breaking-the-Curse-SAM-%E4%BA%8C%E5%88%86/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="题目链接 题意：给定两字符串$S,T$，$q$次查询，每次询问一个$[l,r]$，求$s[l…r]$中有多少$T$的子串。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-09T06:36:58.000Z">
+<meta property="article:modified_time" content="2022-12-09T06:56:14.419Z">
+<meta property="article:author" content="wwawwaww">
+<meta property="article:tag" content="后缀自动机">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/12/09/Breaking-the-Curse-SAM-%E4%BA%8C%E5%88%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Breaking the Curse(SAM+二分) | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/09/Breaking-the-Curse-SAM-%E4%BA%8C%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/imgs/lily.png">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Breaking the Curse(SAM+二分)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-09 14:36:58" itemprop="dateCreated datePublished" datetime="2022-12-09T14:36:58+08:00">2022-12-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url" rel="index"><span itemprop="name">字符串</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://codeforces.com/gym/101840">题目链接</a></p>
+<p>题意：给定两字符串$S,T$，$q$次查询，每次询问一个$[l,r]$，求$s[l…r]$中有多少$T$的子串。</p>
+<span id="more"></span>
+<p>子串问题容易想到SAM，对$T$建立SAM，然后把$S$放到$T$上像最长公共子串那样匹配，对每个前缀$s[1…i]$求出匹配到最前的位置$d[i]=i-最长匹配长度+1$。易知$d[i]$是单调不降的，对于一次询问$[l,r]$，可以拆为两个部分：$[l,L-1]$和$[L,r]$。其中，$L$是满足$d[L]\ge l$的最小的数。</p>
+<p>对于第一部分，所有子串都出现过，所以贡献为$\sum_{i=l}^{L-1}(i-l+1)=\frac{(L-l)(L-l+1)}{2}$；</p>
+<p>对于第二部分，贡献为$\sum_{i=L}^r(i-d[i]+1)=\sum_{i=L}^rmxlen[i]$，可预处理前缀和。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;cstdio&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">#include &lt;queue&gt;</span><br><span class="line">#include &lt;set&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;time.h&gt;</span><br><span class="line">#include &lt;stack&gt;</span><br><span class="line">#include &lt;unordered_map&gt;</span><br><span class="line">#include &lt;bitset&gt;</span><br><span class="line">#include &lt;tuple&gt;</span><br><span class="line">#define ll long long</span><br><span class="line">#define MAXN 200010</span><br><span class="line">#define MOD 998244353</span><br><span class="line">#define pii pair&lt;int,int&gt;</span><br><span class="line">#define pll pair&lt;ll,ll&gt;</span><br><span class="line">#define mapa make_pair</span><br><span class="line">using namespace std;</span><br><span class="line">struct SAM</span><br><span class="line">&#123;</span><br><span class="line">    int tr[MAXN][26],link[MAXN],len[MAXN],tot,lst;</span><br><span class="line">    void init()&#123;tot=lst=1;&#125;</span><br><span class="line">    void clear()</span><br><span class="line">    &#123;</span><br><span class="line">        for(int i=1;i&lt;=tot;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            memset(tr[i],0,sizeof(tr[i]));</span><br><span class="line">            link[i]=0;len[i]=0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    void append(int c)</span><br><span class="line">    &#123;</span><br><span class="line">        int np=++tot,p=lst,q,nq;</span><br><span class="line">        len[np]=len[p]+1;//只有前缀的后缀才算</span><br><span class="line">        lst=np;</span><br><span class="line">        for(;p&amp;&amp;!tr[p][c];p=link[p])</span><br><span class="line">            tr[p][c]=np;</span><br><span class="line">        if(!p)</span><br><span class="line">        &#123;</span><br><span class="line">            link[np]=1;return;</span><br><span class="line">        &#125;</span><br><span class="line">        q=tr[p][c];</span><br><span class="line">        if(len[q]==len[p]+1)</span><br><span class="line">        link[np]=q;</span><br><span class="line">        else &#123;</span><br><span class="line">            nq=++tot;//复制一份后缀，用nq表示</span><br><span class="line">            link[nq]=link[q];link[q]=link[np]=nq;</span><br><span class="line">            len[nq]=len[p]+1;</span><br><span class="line">            memcpy(tr[nq],tr[q],sizeof(tr[q]));//复制转移边</span><br><span class="line">            //修改p的所有tr[p][c]==q的改为nq，一定是连续的一段</span><br><span class="line">            for(;p&amp;&amp;tr[p][c]==q;p=link[p])</span><br><span class="line">            tr[p][c]=nq;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;T;</span><br><span class="line">char s[MAXN],t[MAXN];</span><br><span class="line">int d[MAXN];//s串中i位置向前匹配的最靠前位置</span><br><span class="line">ll sum[MAXN];//[1,i]所有前缀匹配总长度</span><br><span class="line">void slv()</span><br><span class="line">&#123;</span><br><span class="line">    scanf(&quot;%s%s&quot;,s+1,t+1);</span><br><span class="line">    int n=strlen(s+1),m=strlen(t+1);</span><br><span class="line">    T.clear();T.init();</span><br><span class="line">    for(int i=1;i&lt;=m;i++)</span><br><span class="line">    T.append(t[i]-&#x27;a&#x27;);</span><br><span class="line">    //跑LCS</span><br><span class="line">    int v=1,l=0;</span><br><span class="line">    for(int i=1;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        while(v&amp;&amp;!T.tr[v][s[i]-&#x27;a&#x27;])</span><br><span class="line">        &#123;</span><br><span class="line">            v=T.link[v];l=T.len[v];</span><br><span class="line">        &#125;</span><br><span class="line">        if(T.tr[v][s[i]-&#x27;a&#x27;])</span><br><span class="line">        &#123;</span><br><span class="line">            v=T.tr[v][s[i]-&#x27;a&#x27;];l++;</span><br><span class="line">        &#125;</span><br><span class="line">        else v=1;</span><br><span class="line">        d[i]=i-l+1;sum[i]=sum[i-1]+l;</span><br><span class="line">    &#125;</span><br><span class="line">    int q;scanf(&quot;%d&quot;,&amp;q);</span><br><span class="line">    while(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        int ql,qr;scanf(&quot;%d%d&quot;,&amp;ql,&amp;qr);</span><br><span class="line">        int l=ql,r=qr,mid;</span><br><span class="line">        while(l&lt;r)//找到d[l]&gt;=ql的lmin</span><br><span class="line">        &#123;</span><br><span class="line">            mid=l+r&gt;&gt;1;</span><br><span class="line">            if(d[mid]&lt;ql)</span><br><span class="line">            l=mid+1;</span><br><span class="line">            else r=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        printf(&quot;%lld\n&quot;,sum[qr]-sum[l-1]+1LL*(l-ql+1)*(l-ql)/2);</span><br><span class="line">    &#125;</span><br><span class="line">    //for(int i=1;i&lt;=m;i++)printf(&quot;%d &quot;,d[i]);</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">freopen(&quot;curse.in&quot;, &quot;r&quot;, stdin);</span><br><span class="line"></span><br><span class="line">#ifdef LOCAL</span><br><span class="line">    freopen(&quot;in.in&quot;, &quot;r&quot;, stdin);</span><br><span class="line">    freopen(&quot;out.out&quot;, &quot;w&quot;, stdout);</span><br><span class="line">#endif</span><br><span class="line">//ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);</span><br><span class="line">int _ = 1;scanf(&quot;%d&quot;, &amp;_);//cin &gt;&gt; _;</span><br><span class="line">    for(int i=1;i&lt;=_;i++)</span><br><span class="line">    &#123;     </span><br><span class="line">        printf(&quot;Case %d:\n&quot;,i);slv();</span><br><span class="line">        //printf(&quot;\n&quot;);// fflush(stdout);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag"># 后缀自动机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/15/CF1019E-HDU6538/" rel="prev" title="CF1019E,HDU6538">
+      <i class="fa fa-chevron-left"></i> CF1019E,HDU6538
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/09/CF1758/" rel="next" title="Codeforces Round 836 (Div. 2) B-E">
+      Codeforces Round 836 (Div. 2) B-E <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wwawwaww"
+      src="/imgs/lily.png">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

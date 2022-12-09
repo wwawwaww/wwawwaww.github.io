@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="今年9月份做的两道极角排序的好题，有启发意义。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF1019E,HDU6538">
+<meta property="og:url" content="http://example.com/2022/11/15/CF1019E-HDU6538/index.html">
+<meta property="og:site_name" content="wwawwaww&#39;s blog">
+<meta property="og:description" content="今年9月份做的两道极角排序的好题，有启发意义。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-15T13:16:15.000Z">
+<meta property="article:modified_time" content="2022-11-19T16:16:53.689Z">
+<meta property="article:author" content="wwawwaww">
+<meta property="article:tag" content="二分">
+<meta property="article:tag" content="极角排序">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/11/15/CF1019E-HDU6538/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CF1019E,HDU6538 | wwawwaww's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wwawwaww's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/15/CF1019E-HDU6538/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/imgs/lily.png">
+      <meta itemprop="name" content="wwawwaww">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wwawwaww's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CF1019E,HDU6538
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-15 21:16:15" itemprop="dateCreated datePublished" datetime="2022-11-15T21:16:15+08:00">2022-11-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="url" rel="index"><span itemprop="name">计算几何</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今年9月份做的两道极角排序的好题，有启发意义。</p>
+<span id="more"></span>
+<h4 id="HDU6538-Neko-and-quadrilateral"><a target="_blank" rel="noopener" href="https://vjudge.net/problem/HDU-6538">HDU6538 Neko and quadrilateral</a></h4>
+<p>题意：给二维平面$n(\le 2000)$个点，求取四个点四边形的最大、最小面积。</p>
+<p>思路：</p>
+<p>​	枚举对角线，相当于在对角线两端找到到对角线距离最大、最小的两个点。将所有点以x为第一关键字，y为第二关键字排序，然后将所有$P_iP_j,i&lt;j$的对角线逆时针极角排序。由于之前的排序关系，所有对角线向量只会在x正半平面。极角排序后，第一个向量的两个端点在原来的点中一定是相邻的两个点。**并且原来的点从第一个点到该向量左端点对应下标范围内的点到该向量的距离是递减的，该向量右侧的点到最后一个位置的点到该向量的距离是递增的。**否则若存在两个相邻点，使得后一个点到该向量的距离比前一个点还要大，画图可知这两个点会形成斜率更小的向量，矛盾。</p>
+<p>​	接下来考虑旋转。当我们枚举到下一条向量时，考虑所有点到新向量的距离。上一条向量的斜率比现在小，所以<strong>上一条向量两个端点到新向量的距离大小关系发生了变化，而其他的所有点都不变</strong>。我们只需改变这两个点在原序列的相对关系即可维护递增递减性质。</p>
+<p>​	回到这道题，要求在两端求距离最大、最小的两个点，直接取对应的点算面积即可。</p>
+<p>​	实现过程：每条直线存两个点的对应下标$i,j$。因为直线对应点始终不变，所以还要维护一个$ind[]$数组，表示原始点下标，用$P_{ind[i]}P_{ind[j]}$表示真正的直线。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> ll db;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> eps=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">sign</span><span class="params">(db a)</span></span>&#123;<span class="keyword">return</span> a&lt;-eps?<span class="number">-1</span>:a&gt;eps;&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">dcmp</span><span class="params">(db a,db b)</span></span>&#123;<span class="keyword">return</span> <span class="built_in">sign</span>(a-b);&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">P</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    db x,y;</span><br><span class="line">    <span class="built_in">P</span>()&#123;&#125;</span><br><span class="line">    <span class="built_in">P</span>(db _x,db _y):<span class="built_in">x</span>(_x),<span class="built_in">y</span>(_y)&#123;&#125;</span><br><span class="line">    P <span class="keyword">operator</span> +(P p)&#123;<span class="keyword">return</span> &#123;x+p.x,y+p.y&#125;;&#125;</span><br><span class="line">    P <span class="keyword">operator</span> -(P p)&#123;<span class="keyword">return</span> &#123;x-p.x,y-p.y&#125;;&#125;</span><br><span class="line">    P <span class="keyword">operator</span> *(db d)&#123;<span class="keyword">return</span> &#123;x*d,y*d&#125;;&#125;</span><br><span class="line">    P <span class="keyword">operator</span> /(db d)&#123;<span class="keyword">return</span> &#123;x/d,y/d&#125;;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span> &lt;(P p)<span class="keyword">const</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> c=<span class="built_in">dcmp</span>(x,p.x);</span><br><span class="line">        <span class="keyword">if</span>(c) <span class="keyword">return</span> c==<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dcmp</span>(y,p.y)==<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span> ==(P p)<span class="keyword">const</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dcmp</span>(x,p.x)==<span class="number">0</span>&amp;&amp;<span class="built_in">dcmp</span>(y,p.y)==<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">db <span class="title">det</span><span class="params">(P p)</span></span>&#123;<span class="keyword">return</span> x*p.y-y*p.x;&#125;</span><br><span class="line">    <span class="comment">//P rot(db an)&#123;return &#123;x*cos(an)-y*sin(an),x*sin(an)+cos(an)&#125;;&#125;</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">quad</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="built_in">sign</span>(y)==<span class="number">1</span>||<span class="built_in">sign</span>(y)==<span class="number">0</span>&amp;&amp;<span class="built_in">sign</span>(x)&gt;=<span class="number">0</span>;&#125;</span><br><span class="line">&#125;p[<span class="number">2020</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">line</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> i,j;   </span><br><span class="line">&#125;vec[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">angcmp</span><span class="params">(line x,line y)</span></span>&#123;</span><br><span class="line">    P a=p[x.j]-p[x.i],b=p[y.j]-p[y.i];</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sign</span>(a.<span class="built_in">det</span>(b))==<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> cross(p1,p2,p3) ((p2-p1).det(p3-p1))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> crossop(p1,p2,p3) (sign(cross(p1,p2,p3)))</span></span><br><span class="line"><span class="keyword">int</span> ind[<span class="number">2020</span>],n;<span class="comment">//ind[vec]维护原始点编号</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slv</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>,&amp;p[i].x,&amp;p[i].y);ind[i]=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;<span class="number">4</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;0 0\n&quot;</span>);<span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(p+<span class="number">1</span>,p+n+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> vcnt=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">        vec[++vcnt]=&#123;i,j&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(vec+<span class="number">1</span>,vec+vcnt+<span class="number">1</span>,angcmp);</span><br><span class="line">    ll mx=<span class="number">0</span>,mi=<span class="number">9e18</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> t=<span class="number">1</span>;t&lt;=vcnt;t++)<span class="comment">//枚举对角线</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> i=vec[t].i,j=vec[t].j;</span><br><span class="line">        <span class="keyword">if</span>(ind[i]&gt;ind[j])<span class="built_in">swap</span>(i,j);<span class="comment">//可加可不加</span></span><br><span class="line">        <span class="keyword">if</span>(ind[i]!=<span class="number">1</span>&amp;&amp;ind[j]!=n)<span class="comment">//更新最大/最小值</span></span><br><span class="line">        &#123;</span><br><span class="line">            mx=<span class="built_in">max</span>(mx,<span class="built_in">abs</span>(<span class="built_in">cross</span>(p[ind[i]],p[ind[j]],p[<span class="number">1</span>]))   +<span class="built_in">abs</span>(<span class="built_in">cross</span>(p[ind[i]],p[ind[j]],p[n])));</span><br><span class="line">            mi=<span class="built_in">min</span>(mi,<span class="built_in">abs</span>(<span class="built_in">cross</span>(p[ind[i]],p[ind[j]],p[ind[i]<span class="number">-1</span>]))+<span class="built_in">abs</span>(<span class="built_in">cross</span>(p[ind[i]],p[ind[j]],p[ind[j]+<span class="number">1</span>])));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">swap</span>(ind[i],ind[j]);</span><br><span class="line">        <span class="built_in">swap</span>(p[ind[i]],p[ind[j]]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld %lld\n&quot;</span>,mi,mx);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CF1019D-Large-Triangle"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1019/problem/D">CF1019D Large Triangle </a></h4>
+<p>题意：二维平面$n$个点，求是否存在面积为$S$的三角形。</p>
+<p>有了上一道题点到向量距离的性质，只需要再在两侧二分即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BA%8C%E5%88%86/" rel="tag"># 二分</a>
+              <a href="/tags/%E6%9E%81%E8%A7%92%E6%8E%92%E5%BA%8F/" rel="tag"># 极角排序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/14/JU-Flash-Contest/" rel="prev" title="JU Flash Contest">
+      <i class="fa fa-chevron-left"></i> JU Flash Contest
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/09/Breaking-the-Curse-SAM-%E4%BA%8C%E5%88%86/" rel="next" title="Breaking the Curse(SAM+二分)">
+      Breaking the Curse(SAM+二分) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HDU6538-Neko-and-quadrilateral"><span class="nav-number">1.</span> <span class="nav-text">HDU6538 Neko and quadrilateral</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CF1019D-Large-Triangle"><span class="nav-number">2.</span> <span class="nav-text">CF1019D Large Triangle </span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wwawwaww"
+      src="/imgs/lily.png">
+  <p class="site-author-name" itemprop="name">wwawwaww</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wwawwaww</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
